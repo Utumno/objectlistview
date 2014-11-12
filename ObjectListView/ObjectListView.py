@@ -103,9 +103,8 @@ import operator
 import string
 import time
 
-import CellEditor
-import OLVEvent
-
+from . import CellEditor
+from . import OLVEvent
 
 class ObjectListView(wx.ListCtrl):
     """
