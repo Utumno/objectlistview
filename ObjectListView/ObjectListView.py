@@ -350,7 +350,7 @@ class ObjectListView(wx.ListCtrl):
                 info.Image = defn.headerImage
             if info.Image != -1:
                 info.Mask = info.Mask | wx.LIST_MASK_IMAGE
-            info.Format = defn.GetAlignment()
+            info.Align = defn.GetAlignment()
             info.Text = defn.title
             info.Width = defn.width
             self.InsertColumn(len(self.columns)-1, info)
