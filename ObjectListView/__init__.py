@@ -3,7 +3,6 @@
 # Name:         ObjectListView module initialization
 # Author:       Phillip Piper
 # Created:      29 February 2008
-# SVN-ID:       $Id$
 # Copyright:    (c) 2008 by Phillip Piper
 # License:      wxWindows license
 #----------------------------------------------------------------------------

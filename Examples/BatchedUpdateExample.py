@@ -4,7 +4,6 @@
 # Name:         BatchedUpdateExample.py
 # Author:       Phillip Piper
 # Created:      31 August 2008
-# SVN-ID:       $Id$
 # Copyright:    (c) 2008 by Phillip Piper, 2008
 # License:      wxWindows license
 #----------------------------------------------------------------------------

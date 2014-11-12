@@ -4,7 +4,6 @@
 # Author:       Phillip Piper
 # Created:      26 August 2008
 # Copyright:    (c) 2008 Phillip Piper
-# SVN-ID:       $Id$
 # License:      wxWindows license
 #----------------------------------------------------------------------------
 # Change log:

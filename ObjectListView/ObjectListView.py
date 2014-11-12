@@ -4,7 +4,6 @@
 # Author:       Phillip Piper
 # Created:      29 February 2008
 # Copyright:    (c) 2008 Phillip Piper
-# SVN-ID:       $Id$
 # License:      wxWindows license
 #----------------------------------------------------------------------------
 # Change log:
@@ -95,7 +94,6 @@ back into the model. See `ColumnDefn` for more information.
 
 __author__ = "Phillip Piper"
 __date__ = "18 June 2008"
-__version__ = "1.1"
 
 import wx
 import datetime

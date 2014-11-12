@@ -3,7 +3,6 @@
 # Name:         OLVEvent.py
 # Author:       Phillip Piper
 # Created:      3 April 2008
-# SVN-ID:       $Id$
 # Copyright:    (c) 2008 by Phillip Piper, 2008
 # License:      wxWindows license
 #----------------------------------------------------------------------------
@@ -22,7 +21,6 @@ The OLVEvent module holds all the events used by the ObjectListView module.
 
 __author__ = "Phillip Piper"
 __date__ = "3 August 2008"
-__version__ = "1.1"
 
 import wx
 

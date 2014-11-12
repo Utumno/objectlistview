@@ -3,7 +3,6 @@
 # Name:         CellEditor.py
 # Author:       Phillip Piper
 # Created:      3 April 2008
-# SVN-ID:       $Id$
 # Copyright:    (c) 2008 by Phillip Piper, 2008
 # License:      wxWindows license
 #----------------------------------------------------------------------------
@@ -47,7 +46,6 @@ Editor Registry
 
 __author__ = "Phillip Piper"
 __date__ = "3 May 2008"
-__version__ = "1.0"
 
 import datetime
 import wx

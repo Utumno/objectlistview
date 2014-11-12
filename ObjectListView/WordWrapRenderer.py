@@ -4,7 +4,6 @@
 # Name:         WordWrapRenderer.py
 # Author:       Phillip Piper
 # Created:      25 July 2008
-# SVN-ID:       $Id$
 # Copyright:    (c) 2008 by Phillip Piper, 2008
 # License:      wxWindows license
 #----------------------------------------------------------------------------
