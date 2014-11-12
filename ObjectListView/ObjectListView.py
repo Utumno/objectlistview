@@ -351,7 +351,10 @@ class ObjectListView(wx.ListCtrl):
         info.m_format = defn.GetAlignment()
         info.m_text = defn.title
         info.m_width = defn.width
-        self.InsertColumnInfo(len(self.columns)-1, info)
+        if 'phoenix' in wx.PlatformInfo:
+            self.InsertColumn(len(self.columns)-1, info)
+        else:
+            self.InsertColumnInfo(len(self.columns)-1, info)
 
         # Under Linux, the width doesn't take effect without this call
         self.SetColumnWidth(len(self.columns)-1, defn.width)
@@ -366,7 +369,10 @@ class ObjectListView(wx.ListCtrl):
         Initialize some checkbox images for use by this control.
         """
         def _makeBitmap(state, size):
-            bitmap = wx.EmptyBitmap(size, size)
+            if 'phoenix' in wx.PlatformInfo:
+                bitmap = wx.Bitmap(size, size)
+            else:
+                bitmap = wx.EmptyBitmap(size, size)
             dc = wx.MemoryDC(bitmap)
             dc.Clear()
 
@@ -549,8 +555,12 @@ class ObjectListView(wx.ListCtrl):
 
         # There must always be the same number of small and normal bitmaps,
         # so if we aren't given one, we have to make an empty one of the right size
-        smallImage = smallImage or wx.EmptyBitmap(*self.smallImageList.GetSize(0))
-        normalImage = normalImage or wx.EmptyBitmap(*self.normalImageList.GetSize(0))
+        if 'phoenix' in wx.PlatformInfo:
+            smallImage = smallImage or wx.Bitmap(*self.smallImageList.GetSize(0))
+            normalImage = normalImage or wx.Bitmap(*self.normalImageList.GetSize(0))
+        else:
+            smallImage = smallImage or wx.EmptyBitmap(*self.smallImageList.GetSize(0))
+            normalImage = normalImage or wx.EmptyBitmap(*self.normalImageList.GetSize(0))
 
         self.smallImageList.AddNamedImage(name, smallImage)
         return self.normalImageList.AddNamedImage(name, normalImage)
@@ -1699,7 +1709,14 @@ class ObjectListView(wx.ListCtrl):
         self._ResizeSpaceFillingColumns()
         # Make sure our empty msg is reasonably positioned
         sz = self.GetClientSize()
-        self.stEmptyListMsg.SetDimensions(0, sz.GetHeight()/3, sz.GetWidth(), sz.GetHeight())
+        if 'phoenix' in wx.PlatformInfo:
+            self.stEmptyListMsg.SetSize(0, sz.GetHeight()/3,
+                                        sz.GetWidth(),
+                                        sz.GetHeight())
+        else:
+            self.stEmptyListMsg.SetDimensions(0, sz.GetHeight()/3,
+                                              sz.GetWidth(),
+                                              sz.GetHeight())
         #self.stEmptyListMsg.Wrap(sz.GetWidth())
 
 
@@ -2619,7 +2636,10 @@ class GroupListView(FastObjectListView):
         Initialize the images used to indicate expanded/collapsed state of groups.
         """
         def _makeBitmap(state, size):
-            bitmap = wx.EmptyBitmap(size, size)
+            if 'phoenix' in wx.PlatformInfo:
+                bitmap = wx.Bitmap(size, size)
+            else:
+                bitmap = wx.EmptyBitmap(size, size)
             dc = wx.MemoryDC(bitmap)
             dc.SetBackground(wx.Brush(self.groupBackgroundColour))
             dc.Clear()
@@ -4142,7 +4162,10 @@ def _getSmallUpArrowData():
 
 def _getSmallUpArrowBitmap():
     stream = cStringIO.StringIO(_getSmallUpArrowData())
-    return wx.BitmapFromImage(wx.ImageFromStream(stream))
+    if 'phoenix' in wx.PlatformInfo:
+        return wx.Bitmap(wx.Image(stream))
+    else:
+        return wx.BitmapFromImage(wx.ImageFromStream(stream))
 
 def _getSmallDownArrowData():
     return zlib.decompress(
@@ -4155,7 +4178,10 @@ def _getSmallDownArrowData():
 
 def _getSmallDownArrowBitmap():
     stream = cStringIO.StringIO(_getSmallDownArrowData())
-    return wx.BitmapFromImage(wx.ImageFromStream(stream))
+    if 'phoenix' in wx.PlatformInfo:
+        return wx.Bitmap(wx.Image(stream))
+    else:
+        return wx.BitmapFromImage(wx.ImageFromStream(stream))
 
 
 #
