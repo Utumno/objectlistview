@@ -1649,8 +1649,12 @@ class ObjectListView(wx.ListCtrl):
         #    we should edit on double click and this is a single click, OR
         #    we should edit on single click and this is a double click,
         # THEN we don't try to start a cell edit operation
-        if evt.m_altDown or evt.m_controlDown or evt.m_shiftDown:
-            return
+        if wx.VERSION > (2, 9, 1, 0):
+            if evt.altDown or evt.controlDown or evt.shiftDown:
+                return
+        else:
+            if evt.m_altDown or evt.m_controlDown or evt.m_shiftDown:
+                return
         if self.cellEditMode == self.CELLEDIT_NONE:
             return
         if evt.LeftUp() and self.cellEditMode == self.CELLEDIT_DOUBLECLICK:
