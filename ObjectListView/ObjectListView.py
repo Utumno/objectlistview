@@ -4168,7 +4168,7 @@ class BatchedUpdate(object):
 #----------------------------------------------------------------------------
 # Built in images so clients don't have to do the same
 
-from wx.lib.six import BytesIO
+from six import BytesIO
 import zlib
 
 def _getSmallUpArrowData():
