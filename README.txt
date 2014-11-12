@@ -42,6 +42,14 @@ Seriously, after using an ObjectListView, you will never go back to using a plai
 OK, I'm interested. What do I do next?
 --------------------------------------
 
+As Phillip has not updated the Python version for a long time I created this fork as I want to
+use it with wxPython 2.9+ and wxPython 3.x Phoenix on both Python 2.x and 3.x.
+
+To install this version clone the repo or download it and then run 'setup.py install'.
+
+
+The following are links to the original version of ObjectListView:
+
 You can download the `ObjectListView source package from here
 <https://sourceforge.net/project/showfiles.php?group_id=225207&package_id=280564>`_.
 
