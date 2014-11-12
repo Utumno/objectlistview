@@ -42,6 +42,7 @@ def _EventMaker():
 (olv_EVT_EXPANDED, EVT_EXPANDED) = _EventMaker()
 (olv_EVT_COLLAPSING, EVT_COLLAPSING) = _EventMaker()
 (olv_EVT_COLLAPSED, EVT_COLLAPSED) = _EventMaker()
+(olv_EVT_ITEM_CHECKED, EVT_ITEM_CHECKED) = _EventMaker()
 
 #======================================================================
 # Event parameter blocks
@@ -275,3 +276,32 @@ class SortGroupsEvent(wx.PyCommandEvent):
         Indicate that the event handler has sorted the groups.
         """
         self.wasHandled = wasHandled
+
+
+#----------------------------------------------------------------------------
+
+
+class ItemCheckedEvent(wx.PyCommandEvent):
+
+    """
+    Item checked event
+    """
+    def __init__(
+            self,
+            objectListView,
+            rowModel,
+            checkState):
+        super(ItemCheckedEvent, self).__init__(olv_EVT_ITEM_CHECKED)
+        self.SetParameters(
+            objectListView,
+            rowModel,
+            checkState)
+
+    def SetParameters(
+            self,
+            objectListView,
+            rowModel,
+            checkState):
+        self.objectListView = objectListView
+        self.rowModel = rowModel
+        self.checkState = checkState
