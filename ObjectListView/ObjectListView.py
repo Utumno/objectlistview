@@ -102,6 +102,7 @@ import locale
 import operator
 import string
 import time
+import six
 
 from . import CellEditor
 from . import OLVEvent
@@ -343,7 +344,7 @@ class ObjectListView(wx.ListCtrl):
 
         if 'phoenix' in wx.PlatformInfo:
             info.Mask = wx.LIST_MASK_TEXT | wx.LIST_MASK_FORMAT
-            if isinstance(defn.headerImage, basestring) and self.smallImageList is not None:
+            if isinstance(defn.headerImage, six.string_types) and self.smallImageList is not None:
                 info.Image = self.smallImageList.GetImageIndex(defn.headerImage)
             else:
                 info.Image = defn.headerImage
@@ -355,7 +356,7 @@ class ObjectListView(wx.ListCtrl):
             self.InsertColumn(len(self.columns)-1, info)
         else:
             info.m_mask = wx.LIST_MASK_TEXT | wx.LIST_MASK_FORMAT
-            if isinstance(defn.headerImage, basestring) and self.smallImageList is not None:
+            if isinstance(defn.headerImage, six.string_types) and self.smallImageList is not None:
                 info.m_image = self.smallImageList.GetImageIndex(defn.headerImage)
             else:
                 info.m_image = defn.headerImage
@@ -554,9 +555,9 @@ class ObjectListView(wx.ListCtrl):
         If a name is given, that name can later be used to refer to the images rather
         than having to use the returned index.
         """
-        if isinstance(smallImage, basestring):
+        if isinstance(smallImage, six.string_types):
             smallImage = wx.Bitmap(smallImage)
-        if isinstance(normalImage, basestring):
+        if isinstance(normalImage, six.string_types):
             normalImage = wx.Bitmap(normalImage)
 
         # We must have image lists for images to be added to them
@@ -1098,7 +1099,7 @@ class ObjectListView(wx.ListCtrl):
 
         # Not a checkbox column, so just return the image
         imageIndex = column.GetImage(modelObject)
-        if isinstance(imageIndex, basestring):
+        if isinstance(imageIndex, six.string_types):
             return self.smallImageList.GetImageIndex(imageIndex)
         else:
             return imageIndex
@@ -1497,7 +1498,7 @@ class ObjectListView(wx.ListCtrl):
         # know that the list isn't empty.
         if searchColumn.useBinarySearch is None:
             aspect = searchColumn.GetValue(self.GetObjectAt(0))
-            searchColumn.useBinarySearch = isinstance(aspect, (basestring, bool))
+            searchColumn.useBinarySearch = isinstance(aspect, (six.string_types, bool))
 
         return searchColumn.useBinarySearch
 
@@ -1901,7 +1902,7 @@ class ObjectListView(wx.ListCtrl):
         # Remove the sort indicator from the old sort column
         if oldSortColumnIndex >= 0:
             headerImage = self.columns[oldSortColumnIndex].headerImage
-            if isinstance(headerImage, basestring) and self.smallImageList is not None:
+            if isinstance(headerImage, six.string_types) and self.smallImageList is not None:
                 headerImage = self.smallImageList.GetImageIndex(headerImage)
             self.SetColumnImage(oldSortColumnIndex, headerImage)
 
@@ -3276,7 +3277,10 @@ class GroupListView(FastObjectListView):
             except:
                 return group.key
 
-        groups.sort(key=_getLowerCaseKey, reverse=(not ascending))
+        if six.PY2:
+            groups.sort(key=_getLowerCaseKey, reverse=(not ascending))
+        else:
+            groups = sorted(groups, key=_getLowerCaseKey, reverse=(not ascending))
 
         # Sort the model objects within each group.
         for x in groups:
@@ -4160,18 +4164,19 @@ class BatchedUpdate(object):
 #----------------------------------------------------------------------------
 # Built in images so clients don't have to do the same
 
-import cStringIO, zlib
+from six import BytesIO
+import zlib
 
 def _getSmallUpArrowData():
     return zlib.decompress(
-'x\xda\xeb\x0c\xf0s\xe7\xe5\x92\xe2b``\xe0\xf5\xf4p\t\x02\xd2\x02 \xcc\xc1\
+b'x\xda\xeb\x0c\xf0s\xe7\xe5\x92\xe2b``\xe0\xf5\xf4p\t\x02\xd2\x02 \xcc\xc1\
 \x06$\xe5?\xffO\x04R,\xc5N\x9e!\x1c@P\xc3\x91\xd2\x01\xe4[z\xba8\x86X\xf4&\
 \xa7\xa4$\xa5-`1\x08\\R\xcd"\x11\x10\x1f\xfe{~\x0es\xc2,N\xc9\xa6\xab\x0c%\
 \xbe?x\x0e\x1a0LO\x8ay\xe4sD\xe3\x90\xfay\x8bYB\xec\x8d\x8c\x0c\xc1\x01b9\
 \xe1\xbc\x8fw\x01\ra\xf0t\xf5sY\xe7\x94\xd0\x04\x00\xb7\x89#\xbb' )
 
 def _getSmallUpArrowBitmap():
-    stream = cStringIO.StringIO(_getSmallUpArrowData())
+    stream = BytesIO(_getSmallUpArrowData())
     if 'phoenix' in wx.PlatformInfo:
         return wx.Bitmap(wx.Image(stream))
     else:
@@ -4179,7 +4184,7 @@ def _getSmallUpArrowBitmap():
 
 def _getSmallDownArrowData():
     return zlib.decompress(
-'x\xda\xeb\x0c\xf0s\xe7\xe5\x92\xe2b``\xe0\xf5\xf4p\t\x02\xd2\x02 \xcc\xc1\
+b'x\xda\xeb\x0c\xf0s\xe7\xe5\x92\xe2b``\xe0\xf5\xf4p\t\x02\xd2\x02 \xcc\xc1\
 \x06$\xe5?\xffO\x04R,\xc5N\x9e!\x1c@P\xc3\x91\xd2\x01\xe4\x07x\xba8\x86X\xf4\
 &\xa7\xa4$\xa5-`1\x08\\R}\x85\x81\r\x04\xc4R\xfcjc\xdf\xd6;II\xcd\x9e%Y\xb8\
 \x8b!v\xd2\x844\x1e\xe6\x0f\x92M\xde2\xd9\x12\x0b\xb4\x8f\xbd6rSK\x9b\xb3c\
@@ -4187,7 +4192,7 @@ def _getSmallDownArrowData():
 \xd3\xd5\xcfe\x9dSB\x13\x00$1+:' )
 
 def _getSmallDownArrowBitmap():
-    stream = cStringIO.StringIO(_getSmallDownArrowData())
+    stream = BytesIO(_getSmallDownArrowData())
     if 'phoenix' in wx.PlatformInfo:
         return wx.Bitmap(wx.Image(stream))
     else:
