@@ -426,11 +426,11 @@ class DateEditor(DatePickerCtrl):
             dt.Set(value.day, value.month-1, value.year)
         else:
             dt = wx.DateTime.Today()
-        super().SetValue(self, dt)
+        super(DateEditor, self).SetValue(self, dt)
 
     def GetValue(self):
         "Get the value from the editor"
-        dt = super().GetValue(self)
+        dt = super(DateEditor, self).GetValue(self)
         if dt.IsOk():
             return datetime.date(dt.Year, dt.Month+1, dt.Day)
         else:
