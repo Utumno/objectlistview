@@ -341,19 +341,30 @@ class ObjectListView(wx.ListCtrl):
         self.columns.append(defn)
 
         info = wx.ListItem()
-        info.m_mask = wx.LIST_MASK_TEXT | wx.LIST_MASK_FORMAT
-        if isinstance(defn.headerImage, basestring) and self.smallImageList is not None:
-            info.m_image = self.smallImageList.GetImageIndex(defn.headerImage)
-        else:
-            info.m_image = defn.headerImage
-        if info.m_image != -1:
-            info.m_mask = info.m_mask | wx.LIST_MASK_IMAGE
-        info.m_format = defn.GetAlignment()
-        info.m_text = defn.title
-        info.m_width = defn.width
+
         if 'phoenix' in wx.PlatformInfo:
+            info.Mask = wx.LIST_MASK_TEXT | wx.LIST_MASK_FORMAT
+            if isinstance(defn.headerImage, basestring) and self.smallImageList is not None:
+                info.Image = self.smallImageList.GetImageIndex(defn.headerImage)
+            else:
+                info.Image = defn.headerImage
+            if info.Image != -1:
+                info.Mask = info.Mask | wx.LIST_MASK_IMAGE
+            info.Align = defn.GetAlignment()
+            info.Text = defn.title
+            info.Width = defn.width
             self.InsertColumn(len(self.columns)-1, info)
         else:
+            info.m_mask = wx.LIST_MASK_TEXT | wx.LIST_MASK_FORMAT
+            if isinstance(defn.headerImage, basestring) and self.smallImageList is not None:
+                info.m_image = self.smallImageList.GetImageIndex(defn.headerImage)
+            else:
+                info.m_image = defn.headerImage
+            if info.m_image != -1:
+                info.m_mask = info.m_mask | wx.LIST_MASK_IMAGE
+            info.m_format = defn.GetAlignment()
+            info.m_text = defn.title
+            info.m_width = defn.width
             self.InsertColumnInfo(len(self.columns)-1, info)
 
         # Under Linux, the width doesn't take effect without this call
