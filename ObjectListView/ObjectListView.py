@@ -425,6 +425,7 @@ class ObjectListView(wx.ListCtrl):
         col.valueGetter = col.GetCheckState # Install a value getter so sorting works
         col.stringConverter = lambda x: "" # We don't want any string for the value
         col.isInternal = True # This is an autocreated column
+        col._EventHandler = self
         self.columns.insert(columnIndex, col)
         self.SetColumns(self.columns, False)
         self.InstallCheckStateColumn(col)
@@ -597,7 +598,7 @@ class ObjectListView(wx.ListCtrl):
         """
         Mark the given model object as checked.
         """
-        self.SetCheckState(self.EventHandler, modelObject, True)
+        self.SetCheckState(modelObject, True)
 
 
     def ClearAll(self):
@@ -919,7 +920,7 @@ class ObjectListView(wx.ListCtrl):
                 self.SetColumnWidth(i, boundedWidth)
 
 
-    def SetCheckState(self, eventHandler, modelObject, state):
+    def SetCheckState(self, modelObject, state):
         """
         Set the check state of the given model object.
 
@@ -928,7 +929,7 @@ class ObjectListView(wx.ListCtrl):
         if self.checkStateColumn is None:
             return None
         else:
-            return self.checkStateColumn.SetCheckState(eventHandler, modelObject, state)
+            return self.checkStateColumn.SetCheckState(modelObject, state)
 
 
     def SetColumnFixedWidth(self, colIndex, width):
@@ -996,14 +997,14 @@ class ObjectListView(wx.ListCtrl):
 
         Checked becomes unchecked; unchecked or undetermined becomes checked.
         """
-        self.SetCheckState(self.EventHandler, modelObject, not self.IsChecked(modelObject))
+        self.SetCheckState(modelObject, not self.IsChecked(modelObject))
 
 
     def Uncheck(self, modelObject):
         """
         Mark the given model object as unchecked.
         """
-        self.SetCheckState(self.EventHandler, modelObject, False)
+        self.SetCheckState(modelObject, False)
 
     #--------------------------------------------------------------#000000#FFFFFF
     # Accessing
@@ -1655,7 +1656,7 @@ class ObjectListView(wx.ListCtrl):
         self._PossibleFinishCellEdit()
         modelObject = self.GetObjectAt(rowIndex)
         if modelObject is not None:
-            column.SetCheckState(self.EventHandler, modelObject, not column.GetCheckState(modelObject))
+            column.SetCheckState(modelObject, not column.GetCheckState(modelObject))
             self.RefreshIndex(rowIndex, modelObject)
 
 
@@ -3579,6 +3580,7 @@ class ColumnDefn(object):
         self.groupTitleSingleItem = groupTitleSingleItem or "%(title)s (%(count)d item)"
         self.groupTitlePluralItems = groupTitlePluralItems or "%(title)s (%(count)d items)"
         self.isInternal = False # was this column created internally by ObjectListView?
+        self._EventHandler = None
 
         self.minimumWidth = minimumWidth
         self.maximumWidth = maximumWidth
@@ -3879,13 +3881,17 @@ class ColumnDefn(object):
             return self._Munge(modelObject, self.checkStateGetter)
 
 
-    def SetCheckState(self, evtHandler, modelObject, state):
+    def SetCheckState(self, modelObject, state):
         """
         Set the check state of the given model object
         """
         # Let the world know the check state
         evt = OLVEvent.ItemCheckedEvent(self, modelObject, state)
-        evtHandler.ProcessEvent(evt)
+        # Is there a shorter way to get at the EventHandler?
+        if self._EventHandler:
+            wx.CallAfter(self._EventHandler.ProcessEvent, evt)
+        else:
+            wx.CallAfter(wx.GetApp().GetTopWindow().GetEventHandler().ProcessEvent, evt)
 
         if self.checkStateSetter is None:
             return self._SetValueUsingMunger(modelObject, state, self.checkStateGetter, False)
