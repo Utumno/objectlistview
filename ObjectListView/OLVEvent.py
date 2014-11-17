@@ -285,6 +285,9 @@ class ItemCheckedEvent(wx.PyCommandEvent):
 
     """
     Item checked event
+
+    If column is not created using :meth:`ObjectListView.CreateCheckStateColumn` event will go to the
+    event handler of wx.GetApp().GetTopWindow() - see :class:`ObjectListView.ColumnDef.SetCheckState`
     """
     def __init__(
             self,
