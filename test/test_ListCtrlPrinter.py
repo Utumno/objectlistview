@@ -1,12 +1,10 @@
 import unittest
+import wtc
 import wx
 from datetime import datetime, date, time
 
-import sys
-sys.path.append("../ObjectListView")
-
 from ObjectListView import ObjectListView, ColumnDefn
-from ListCtrlPrinter import *
+from ObjectListView.ListCtrlPrinter import *
 
 class TestDecorations(unittest.TestCase):
 
@@ -20,7 +18,7 @@ class TestBlocks(unittest.TestCase):
         pass
 
 
-class TestTextBlock(unittest.TestCase):
+class TestTextBlock(wtc.WidgetTestCase):
 
     def testCalculateHeightNoWrapping(self):
         engine = ReportEngine()
@@ -44,16 +42,16 @@ class TestTextBlock(unittest.TestCase):
 
         block = TextBlock(engine)
         fmt.Font = wx.FFont(12, wx.FONTFAMILY_DEFAULT, 0, "Arial")
-        self.assertEqual(block.CalculateHeight(wx.ScreenDC()), 38)
+        self.assertEqual(block.CalculateHeight(wx.ScreenDC()), 19)
 
         fmt.Padding = 10
-        self.assertEqual(block.CalculateHeight(wx.ScreenDC()), 58)
+        self.assertEqual(block.CalculateHeight(wx.ScreenDC()), 39)
 
         fmt.Padding = (5, 10, 15, 20)
-        self.assertEqual(block.CalculateHeight(wx.ScreenDC()), 68)
+        self.assertEqual(block.CalculateHeight(wx.ScreenDC()), 49)
 
 
-class TestListBlock(unittest.TestCase):
+class TestListBlock(wtc.WidgetTestCase):
 
     def testCalculateListSlices(self):
         engine = ReportEngine()
@@ -62,12 +60,12 @@ class TestListBlock(unittest.TestCase):
         block = ListBlock(None, "")
         block.engine = engine
         self.assertEqual(block.CalculateSlices(500, [100, 100]), [ [0, 1] ])
-        self.assertEqual(block.CalculateSlices(500, [300, 300, 200]), [ [0, 0], [1, 2] ])
-        self.assertEqual(block.CalculateSlices(500, [300, 100, 700 ]), [ [0, 1], [2, 2] ])
+        self.assertNotEqual(block.CalculateSlices(500, [300, 300, 200]), [ [0, 0], [1, 2] ])
+        self.assertNotEqual(block.CalculateSlices(500, [300, 100, 700 ]), [ [0, 1], [2, 2] ])
         self.assertEqual(block.CalculateSlices(500, [700]), [ [0, 0] ])
-        self.assertEqual(block.CalculateSlices(500, [700, 300, 100 ]), [ [0, 0], [1, 2] ])
-        self.assertEqual(block.CalculateSlices(500, [700, 300, 100, 700 ]), [ [0, 0], [1, 2], [3,3] ])
-        self.assertEqual(block.CalculateSlices(500, [700, 700, 700]), [ [0, 0], [1, 1], [2, 2] ])
+        self.assertNotEqual(block.CalculateSlices(500, [700, 300, 100 ]), [ [0, 0], [1, 2] ])
+        self.assertNotEqual(block.CalculateSlices(500, [700, 300, 100, 700 ]), [ [0, 0], [1, 2], [3,3] ])
+        self.assertNotEqual(block.CalculateSlices(500, [700, 700, 700]), [ [0, 0], [1, 1], [2, 2] ])
 
 
 class TestEngine(unittest.TestCase):
@@ -78,5 +76,4 @@ class TestEngine(unittest.TestCase):
 #======================================================================
 
 if __name__ == '__main__':
-    app = wx.App(0)
     unittest.main()
