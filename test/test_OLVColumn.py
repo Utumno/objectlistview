@@ -1,3 +1,4 @@
+import wtc
 import unittest
 import wx
 from datetime import datetime, date, time
@@ -357,7 +358,7 @@ class TestValueSettingWithGetter(unittest.TestCase):
         self.assertEqual(data, ["zero", "first", 2, "third"])
 
 
-class TestCheckState(unittest.TestCase):
+class TestCheckState(wtc.WidgetTestCase):
 
     def testGetting(self):
 
@@ -385,10 +386,10 @@ class TestCheckState(unittest.TestCase):
         col = ColumnDefn(checkStateGetter="isChecked")
         self.assertEqual(col.GetCheckState(data), True)
 
-        col.SetCheckState(data, None)
+        col.SetCheckState(self.app.GetTopWindow().GetEventHandler(), data, None)
         self.assertEqual(col.GetCheckState(data), None)
 
-        col.SetCheckState(data, False)
+        col.SetCheckState(self.app.GetTopWindow().GetEventHandler(), data, False)
         self.assertEqual(col.GetCheckState(data), False)
 
 #======================================================================
