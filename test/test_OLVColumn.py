@@ -1,9 +1,8 @@
+import wtc
 import unittest
 import wx
 from datetime import datetime, date, time
 
-import sys
-sys.path.append("..")
 from ObjectListView import ObjectListView, ColumnDefn
 
 class TestColumnDefn(unittest.TestCase):
@@ -201,8 +200,8 @@ class TestValueSettingWithSetter(unittest.TestCase):
 
         class DataObject:
             def __init__(self, value1, value2):
-                   self.someAttribute = value1
-                   self.someOtherAttribute = value2
+                self.someAttribute = value1
+                self.someOtherAttribute = value2
 
         data = DataObject("firstValue", "secondValue")
         col = ColumnDefn(valueSetter=setterFunction)
@@ -357,7 +356,7 @@ class TestValueSettingWithGetter(unittest.TestCase):
         self.assertEqual(data, ["zero", "first", 2, "third"])
 
 
-class TestCheckState(unittest.TestCase):
+class TestCheckState(wtc.WidgetTestCase):
 
     def testGetting(self):
 
