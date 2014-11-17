@@ -3580,6 +3580,7 @@ class ColumnDefn(object):
         self.groupTitleSingleItem = groupTitleSingleItem or "%(title)s (%(count)d item)"
         self.groupTitlePluralItems = groupTitlePluralItems or "%(title)s (%(count)d items)"
         self.isInternal = False # was this column created internally by ObjectListView?
+        self._EventHandler = None
 
         self.minimumWidth = minimumWidth
         self.maximumWidth = maximumWidth
