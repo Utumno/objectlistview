@@ -919,7 +919,7 @@ class ObjectListView(wx.ListCtrl):
                 self.SetColumnWidth(i, boundedWidth)
 
 
-    def SetCheckState(self, modelObject, state):
+    def SetCheckState(self, eventHandler, modelObject, state):
         """
         Set the check state of the given model object.
 
@@ -928,7 +928,7 @@ class ObjectListView(wx.ListCtrl):
         if self.checkStateColumn is None:
             return None
         else:
-            return self.checkStateColumn.SetCheckState(self.EventHandler, modelObject, state)
+            return self.checkStateColumn.SetCheckState(eventHandler, modelObject, state)
 
 
     def SetColumnFixedWidth(self, colIndex, width):
