@@ -55,7 +55,7 @@ if 'bdist_egg' in sys.argv:
     try:
         from setuptools import setup
     except ImportError:
-        print "To build an egg setuptools must be installed"
+        print("To build an egg setuptools must be installed")
 else:
     from distutils.core import setup
 
