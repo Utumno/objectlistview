@@ -102,7 +102,7 @@ import math
 
 import wx
 
-from WordWrapRenderer import WordWrapRenderer
+from .WordWrapRenderer import WordWrapRenderer
 
 #----------------------------------------------------------------------------
 
