@@ -7,6 +7,7 @@ from ObjectListView.CellEditor import BooleanEditor, DateEditor, DateTimeEditor,
 
 #----------------------------------------------------------------------------
 
+
 class TestBooleanEditor(wtc.WidgetTestCase):
 
     def testBasics(self):
@@ -18,6 +19,7 @@ class TestBooleanEditor(wtc.WidgetTestCase):
 
 #----------------------------------------------------------------------------
 
+
 class TestDateEditor(wtc.WidgetTestCase):
 
     def testBasics(self):
@@ -28,8 +30,8 @@ class TestDateEditor(wtc.WidgetTestCase):
 
 #----------------------------------------------------------------------------
 
-class TestDateTimeEditor(wtc.WidgetTestCase):
 
+class TestDateTimeEditor(wtc.WidgetTestCase):
 
     def testBasics(self):
         self.editor = DateTimeEditor(self.frame, 0)
@@ -62,7 +64,7 @@ class TestDateTimeEditor(wtc.WidgetTestCase):
             ("Dec 31, 2007 11:59 pm", datetime(2007, 12, 31, 23, 59)),
         ]
         for (txt, dt) in tests:
-            #print txt
+            # print txt
             self.editor.SetValue(txt)
             self.assertEqual(self.editor.GetValue(), dt)
 
@@ -92,11 +94,12 @@ class TestDateTimeEditor(wtc.WidgetTestCase):
         ]
         thisYear = datetime.now().year
         for (txt, dt) in tests:
-            #print txt
+            # print txt
             self.editor.SetValue(txt)
             self.assertEqual(self.editor.GetValue(), dt.replace(year=thisYear))
 
 #----------------------------------------------------------------------------
+
 
 class TestTimeEditor(wtc.WidgetTestCase):
 

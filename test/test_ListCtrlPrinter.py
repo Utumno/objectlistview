@@ -6,6 +6,7 @@ from datetime import datetime, date, time
 from ObjectListView import ObjectListView, ColumnDefn
 from ObjectListView.ListCtrlPrinter import *
 
+
 class TestDecorations(unittest.TestCase):
 
     def testInitialState(self):
@@ -59,13 +60,30 @@ class TestListBlock(wtc.WidgetTestCase):
 
         block = ListBlock(None, "")
         block.engine = engine
-        self.assertEqual(block.CalculateSlices(500, [100, 100]), [ [0, 1] ])
-        self.assertNotEqual(block.CalculateSlices(500, [300, 300, 200]), [ [0, 0], [1, 2] ])
-        self.assertNotEqual(block.CalculateSlices(500, [300, 100, 700 ]), [ [0, 1], [2, 2] ])
-        self.assertEqual(block.CalculateSlices(500, [700]), [ [0, 0] ])
-        self.assertNotEqual(block.CalculateSlices(500, [700, 300, 100 ]), [ [0, 0], [1, 2] ])
-        self.assertNotEqual(block.CalculateSlices(500, [700, 300, 100, 700 ]), [ [0, 0], [1, 2], [3,3] ])
-        self.assertNotEqual(block.CalculateSlices(500, [700, 700, 700]), [ [0, 0], [1, 1], [2, 2] ])
+        self.assertEqual(block.CalculateSlices(500, [100, 100]), [[0, 1]])
+        self.assertNotEqual(
+            block.CalculateSlices(500, [300, 300, 200]),
+            [[0, 0],
+             [1, 2]])
+        self.assertNotEqual(
+            block.CalculateSlices(500, [300, 100, 700]),
+            [[0, 1],
+             [2, 2]])
+        self.assertEqual(block.CalculateSlices(500, [700]), [[0, 0]])
+        self.assertNotEqual(
+            block.CalculateSlices(500, [700, 300, 100]),
+            [[0, 0],
+             [1, 2]])
+        self.assertNotEqual(
+            block.CalculateSlices(500, [700, 300, 100, 700]),
+            [[0, 0],
+             [1, 2],
+             [3, 3]])
+        self.assertNotEqual(
+            block.CalculateSlices(500, [700, 700, 700]),
+            [[0, 0],
+             [1, 1],
+             [2, 2]])
 
 
 class TestEngine(unittest.TestCase):
