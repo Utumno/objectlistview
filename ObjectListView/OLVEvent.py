@@ -27,6 +27,7 @@ import wx
 #======================================================================
 # Event ids and types
 
+
 def _EventMaker():
     evt = wx.NewEventType()
     return (evt, wx.PyEventBinder(evt))
@@ -47,7 +48,9 @@ def _EventMaker():
 #======================================================================
 # Event parameter blocks
 
+
 class VetoableEvent(wx.PyCommandEvent):
+
     """
     Base class for all cancellable actions
     """
@@ -70,12 +73,21 @@ class VetoableEvent(wx.PyCommandEvent):
 
 #----------------------------------------------------------------------------
 
+
 class CellEditEvent(VetoableEvent):
+
     """
     Base class for all cell editing events
     """
 
-    def SetParameters(self, objectListView, rowIndex, subItemIndex, rowModel, cellValue, editor):
+    def SetParameters(
+            self,
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            editor):
         self.objectListView = objectListView
         self.rowIndex = rowIndex
         self.subItemIndex = subItemIndex
@@ -85,21 +97,39 @@ class CellEditEvent(VetoableEvent):
 
 #----------------------------------------------------------------------------
 
+
 class CellEditStartedEvent(CellEditEvent):
+
     """
     A cell has started to be edited.
 
     All attributes are public and should be considered read-only.
     """
 
-    def __init__(self, objectListView, rowIndex, subItemIndex, rowModel, cellValue, cellBounds, editor):
+    def __init__(
+            self,
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            cellBounds,
+            editor):
         CellEditEvent.__init__(self, olv_EVT_CELL_EDIT_STARTED)
-        self.SetParameters(objectListView, rowIndex, subItemIndex, rowModel, cellValue, editor)
+        self.SetParameters(
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            editor)
         self.cellBounds = cellBounds
 
 #----------------------------------------------------------------------------
 
+
 class CellEditStartingEvent(CellEditEvent):
+
     """
     A cell is about to be edited.
 
@@ -107,9 +137,23 @@ class CellEditStartingEvent(CellEditEvent):
     information that can be changed.
     """
 
-    def __init__(self, objectListView, rowIndex, subItemIndex, rowModel, cellValue, cellBounds, editor):
+    def __init__(
+            self,
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            cellBounds,
+            editor):
         CellEditEvent.__init__(self, olv_EVT_CELL_EDIT_STARTING)
-        self.SetParameters(objectListView, rowIndex, subItemIndex, rowModel, cellValue, editor)
+        self.SetParameters(
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            editor)
         self.cellBounds = cellBounds
         self.newEditor = None
         self.shouldConfigureEditor = True
@@ -140,27 +184,59 @@ class CellEditStartingEvent(CellEditEvent):
 
 #----------------------------------------------------------------------------
 
+
 class CellEditFinishedEvent(CellEditEvent):
+
     """
     The user has finished editing a cell.
     """
-    def __init__(self, objectListView, rowIndex, subItemIndex, rowModel, userCancelled):
+
+    def __init__(
+            self,
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            userCancelled):
         CellEditEvent.__init__(self, olv_EVT_CELL_EDIT_FINISHED)
-        self.SetParameters(objectListView, rowIndex, subItemIndex, rowModel, None, None)
+        self.SetParameters(
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            None,
+            None)
         self.userCancelled = userCancelled
 
 #----------------------------------------------------------------------------
 
+
 class CellEditFinishingEvent(CellEditEvent):
+
     """
     The user is finishing editing a cell.
 
     If this event is vetoed, the edit will be cancelled silently. This is useful if the
     event handler completely handles the model updating.
     """
-    def __init__(self, objectListView, rowIndex, subItemIndex, rowModel, cellValue, editor, userCancelled):
+
+    def __init__(
+            self,
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            editor,
+            userCancelled):
         CellEditEvent.__init__(self, olv_EVT_CELL_EDIT_FINISHING)
-        self.SetParameters(objectListView, rowIndex, subItemIndex, rowModel, cellValue, editor)
+        self.SetParameters(
+            objectListView,
+            rowIndex,
+            subItemIndex,
+            rowModel,
+            cellValue,
+            editor)
         self.userCancelled = userCancelled
 
     def SetCellValue(self, value):
@@ -172,7 +248,9 @@ class CellEditFinishingEvent(CellEditEvent):
 
 #----------------------------------------------------------------------------
 
+
 class SortEvent(VetoableEvent):
+
     """
     The user wants to sort the ObjectListView.
 
@@ -193,7 +271,14 @@ class SortEvent(VetoableEvent):
     includes updating sort indicators.
     If the handler calls neither of these, all default processing will be done.
     """
-    def __init__(self, objectListView, sortColumnIndex, sortAscending, sortModelObjects, modelObjects=None):
+
+    def __init__(
+            self,
+            objectListView,
+            sortColumnIndex,
+            sortAscending,
+            sortModelObjects,
+            modelObjects=None):
         VetoableEvent.__init__(self, olv_EVT_SORT)
         self.objectListView = objectListView
         self.sortColumnIndex = sortColumnIndex
@@ -211,7 +296,9 @@ class SortEvent(VetoableEvent):
 
 #----------------------------------------------------------------------------
 
+
 class GroupCreationEvent(wx.PyCommandEvent):
+
     """
     The user is about to create one or more groups.
 
@@ -219,6 +306,7 @@ class GroupCreationEvent(wx.PyCommandEvent):
     names, give them icons, remove them from the list to stop them being created
     (that last behaviour could be very confusing for the users).
     """
+
     def __init__(self, objectListView, groups):
         wx.PyCommandEvent.__init__(self, olv_EVT_GROUP_CREATING, -1)
         self.objectListView = objectListView
@@ -226,7 +314,9 @@ class GroupCreationEvent(wx.PyCommandEvent):
 
 #----------------------------------------------------------------------------
 
+
 class ExpandCollapseEvent(VetoableEvent):
+
     """
     The user wants to expand or collapse one or more groups, or has just done so.
 
@@ -235,27 +325,48 @@ class ExpandCollapseEvent(VetoableEvent):
 
     Calling Veto() has no effect on a Expanded or Collapsed event
     """
+
     def __init__(self, eventType, objectListView, groups, isExpand):
         VetoableEvent.__init__(self, eventType)
         self.objectListView = objectListView
         self.groups = groups
         self.isExpand = isExpand
 
+
 def ExpandingCollapsingEvent(objectListView, groups, isExpand):
     if isExpand:
-        return ExpandCollapseEvent(olv_EVT_EXPANDING, objectListView, groups, True)
+        return ExpandCollapseEvent(
+            olv_EVT_EXPANDING,
+            objectListView,
+            groups,
+            True)
     else:
-        return ExpandCollapseEvent(olv_EVT_COLLAPSING, objectListView, groups, False)
+        return ExpandCollapseEvent(
+            olv_EVT_COLLAPSING,
+            objectListView,
+            groups,
+            False)
+
 
 def ExpandedCollapsedEvent(objectListView, groups, isExpand):
     if isExpand:
-        return ExpandCollapseEvent(olv_EVT_EXPANDED, objectListView, groups, True)
+        return ExpandCollapseEvent(
+            olv_EVT_EXPANDED,
+            objectListView,
+            groups,
+            True)
     else:
-        return ExpandCollapseEvent(olv_EVT_COLLAPSED, objectListView, groups, False)
+        return ExpandCollapseEvent(
+            olv_EVT_COLLAPSED,
+            objectListView,
+            groups,
+            False)
 
 #----------------------------------------------------------------------------
 
+
 class SortGroupsEvent(wx.PyCommandEvent):
+
     """
     The given list of groups needs to be sorted.
 
@@ -263,6 +374,7 @@ class SortGroupsEvent(wx.PyCommandEvent):
 
     The handler should rearrange the list of groups in the order desired.
     """
+
     def __init__(self, objectListView, groups, sortColumn, sortAscending):
         wx.PyCommandEvent.__init__(self, olv_EVT_GROUP_SORT, -1)
         self.objectListView = objectListView
@@ -289,6 +401,7 @@ class ItemCheckedEvent(wx.PyCommandEvent):
     If column is not created using :meth:`ObjectListView.CreateCheckStateColumn` event will go to the
     event handler of wx.GetApp().GetTopWindow() - see :class:`ObjectListView.ColumnDef.SetCheckState`
     """
+
     def __init__(
             self,
             objectListView,

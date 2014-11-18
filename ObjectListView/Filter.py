@@ -29,6 +29,7 @@ object to see if it should be included. Head() and Tail() are exceptions
 to this observation.
 """
 
+
 def Predicate(predicate):
     """
     Display only those objects that match the given predicate
@@ -60,6 +61,7 @@ def Tail(num):
 
 
 class TextSearch(object):
+
     """
     Return only model objects that match a given string. If columns is not empty,
     only those columns will be considered when searching for the string. Otherwise,
@@ -109,6 +111,7 @@ class TextSearch(object):
 
 
 class Chain(object):
+
     """
     Return only model objects that match all of the given filters.
 
@@ -126,7 +129,6 @@ class Chain(object):
         The order of the filters is important.
         """
         self.filters = filters
-
 
     def __call__(self, modelObjects):
         """
