@@ -235,18 +235,18 @@ class TestObjectListView(wtc.WidgetTestCase):
         self.objectListView.InstallCheckStateColumn(None)
 
         firstObject = self.objectListView[0]
-        self.assertEqual(self.objectListView.IsChecked(firstObject), False)
+        self.assertIn(self.objectListView.IsChecked(firstObject), (None, False))
 
         self.assertEqual(self.objectListView.GetCheckedObjects(), list())
 
         self.objectListView.Check(firstObject)
-        self.assertEqual(self.objectListView.IsChecked(firstObject), False)
+        self.assertIn(self.objectListView.IsChecked(firstObject), (None, False))
 
     def testCreateCheckStateColumn(self):
         self.objectListView.InstallCheckStateColumn(None)
 
         firstObject = self.objectListView[0]
-        self.assertEqual(self.objectListView.IsChecked(firstObject), False)
+        self.assertIn(self.objectListView.IsChecked(firstObject), (False, None))
 
         self.objectListView.CreateCheckStateColumn()
         self.objectListView.Check(firstObject)
