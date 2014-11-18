@@ -54,11 +54,11 @@ class OLVPrinter(wx.Printout):
     # Accessing
 
     def HasPage(self, page):
-        print "HasPage(%d)" % page
+        #print("HasPage(%d)" % page)
         return page <= self.engine.GetTotalPages()
 
     def GetPageInfo(self):
-        print "GetPageInfo"
+        #print("GetPageInfo")
         return (1, self.engine.GetTotalPages(), 1, 1)
 
     def GetReportFormat(self):
@@ -150,8 +150,8 @@ class OLVPrinter(wx.Printout):
         """
         Prepare for printing. This event is sent before any of the others
         """
-        print "OnPreparePrinting"
-        print "self.GetDC() = %s" % self.GetDC()
+        #print("OnPreparePrinting")
+        #print("self.GetDC() = %s" % self.GetDC())
         self.engine.CalculateTotalPages(self.GetDC())
         self.engine.StartPrinting()
 
@@ -159,26 +159,26 @@ class OLVPrinter(wx.Printout):
         """
         Begin printing one copy of the document. Return False to cancel the job
         """
-        print "OnBeginDocument(%d, %d)" % (start, end)
+        #print("OnBeginDocument(%d, %d)" % (start, end))
         if not super(OLVPrinter, self).OnBeginDocument(start, end):
             return False
 
         return True
 
     def OnEndDocument(self):
-        print "OnEndDocument"
+        #print("OnEndDocument")
         super(OLVPrinter, self).OnEndDocument()
 
     def OnBeginPrinting(self):
-        print "OnBeginPrinting"
+        #print("OnBeginPrinting")
         super(OLVPrinter, self).OnBeginPrinting()
 
     def OnEndPrinting(self):
-        print "OnEndPrinting"
+        #print("OnEndPrinting")
         super(OLVPrinter, self).OnEndPrinting()
 
     def OnPrintPage(self, page):
-        print "OnPrintPage(%d)" % page
+        #print("OnPrintPage(%d)" % page)
         return self.engine.PrintPage(self.GetDC(), page)
 
 
@@ -320,12 +320,12 @@ class ReportEngine(object):
         # If the request page isn't next in order, we have to restart
         # the printing process and advance until we reach the desired page
         if pageNumber != self.currentPage + 1:
-            print "Skipping pages..."
+            #print("Skipping pages...")
             self.StartPrinting()
             for i in range(1, pageNumber):
                 self.PrintOnePage(pdc, i)
             dc.Clear()
-            print "...finished skipping."
+            #print("...finished skipping.")
 
         return self.PrintOnePage(pdc, pageNumber)
 
