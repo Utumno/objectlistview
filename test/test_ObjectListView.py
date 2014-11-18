@@ -5,7 +5,8 @@ print(wx.VERSION_STRING)
 import datetime
 import time
 
-import sys
+import six
+
 from ObjectListView import ObjectListView, FastObjectListView, VirtualObjectListView, GroupListView, ColumnDefn, EVT_SORT, Filter
 
 
@@ -478,7 +479,7 @@ class TestVirtualObjectListView(TestObjectListView):
 
         def _getLowerCaseSortValue(x):
             value = col.GetValue(x)
-            if isinstance(value, basestring):
+            if isinstance(value, six.text_type):
                 return value.lower()
             else:
                 return value
