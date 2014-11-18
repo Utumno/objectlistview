@@ -1,22 +1,27 @@
 # borrowed from wxPython Phoenix
-import imp_unittest, unittest
+import imp_unittest
+import unittest
 import wx
-import sys, os
+import sys
+import os
 import six
 
 #---------------------------------------------------------------------------
 
+
 class WidgetTestCase(unittest.TestCase):
+
     """
     A testcase that will create an app and frame for various widget test
     modules to use. They can inherit from this class to save some work. This
     is also good for test cases that just need to have an application object
     created.
     """
+
     def setUp(self):
         self.app = wx.App()
         wx.Log.SetActiveTarget(wx.LogStderr())
-        self.frame = wx.Frame(None, title='WTC: '+self.__class__.__name__)
+        self.frame = wx.Frame(None, title='WTC: ' + self.__class__.__name__)
         self.frame.Show()
 
     def tearDown(self):
@@ -25,23 +30,22 @@ class WidgetTestCase(unittest.TestCase):
                 if tlw:
                     tlw.Destroy()
             wx.WakeUpIdle()
-            #self.app.ExitMainLoop()
+            # self.app.ExitMainLoop()
         wx.CallLater(50, _cleanup)
         self.app.MainLoop()
         del self.app
 
-
     # helper methods
 
-    #def myYield(self, eventsToProcess=wx.EVT_CATEGORY_ALL):
+    # def myYield(self, eventsToProcess=wx.EVT_CATEGORY_ALL):
         #"""
-        #Since the tests are usually run before MainLoop is called then we
-        #need to make our own EventLoop for Yield to actually do anything
-        #useful.
+        # Since the tests are usually run before MainLoop is called then we
+        # need to make our own EventLoop for Yield to actually do anything
+        # useful.
         #"""
         #evtLoop = self.app.GetTraits().CreateEventLoop()
-        #activator = wx.EventLoopActivator(evtLoop) # automatically restores the old one
-        #evtLoop.YieldFor(eventsToProcess)
+        # activator = wx.EventLoopActivator(evtLoop) # automatically restores the old one
+        # evtLoop.YieldFor(eventsToProcess)
 
     def myUpdate(self, window):
         """
@@ -53,26 +57,23 @@ class WidgetTestCase(unittest.TestCase):
             wx.MilliSleep(40)  # a little more than 1/30, just in case
         window.Update()
 
-
     def closeDialogs(self):
         """
         Close dialogs by calling their EndModal method
         """
-        #self.myYield()
+        # self.myYield()
         for w in wx.GetTopLevelWindows():
             if isinstance(w, wx.Dialog):
                 w.EndModal(wx.ID_CANCEL)
 
-
     def waitFor(self, milliseconds):
-        intervals = milliseconds/100
+        intervals = milliseconds / 100
         while intervals > 0:
             wx.MilliSleep(100)
-            #self.myYield()
+            # self.myYield()
             if hasattr(self, 'flag') and self.flag:
                 break
             intervals -= 1
-
 
     def myExecfile(self, filename, ns):
         if not six.PY3:
@@ -82,22 +83,25 @@ class WidgetTestCase(unittest.TestCase):
                 source = f.read()
             exec(source, ns)
 
-
     def execSample(self, name):
         ns = Namespace()
-        samplesDir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../samples'))
+        samplesDir = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                '../samples'))
         self.myExecfile(os.path.join(samplesDir, name), ns.dict())
         return ns
-
 
 
 #---------------------------------------------------------------------------
 
 class Namespace(object):
+
     def dict(self):
         return self.__dict__
 
 #---------------------------------------------------------------------------
+
 
 def mybytes(text):
     if six.PY3:
@@ -109,6 +113,7 @@ def mybytes(text):
 
 
 class PubsubTestCase(unittest.TestCase):
+
     """
     A testcase specifically to test wx.lib.pubsub, as pub is a singleton
     the tearDown removes it from sys.modules to force a reinitialization on
@@ -138,5 +143,5 @@ class PubsubTestCase(unittest.TestCase):
             del sys.modules['wx.lib.pubsub.pub']
 
         #skeys = sys.modules.keys()
-        #for name in skeys:
+        # for name in skeys:
             #del sys.modules[name]

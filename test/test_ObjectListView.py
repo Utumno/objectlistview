@@ -8,6 +8,7 @@ import time
 import sys
 from ObjectListView import ObjectListView, FastObjectListView, VirtualObjectListView, GroupListView, ColumnDefn, EVT_SORT, Filter
 
+
 class Person:
 
     def __init__(self, name, birthdate, sex):
@@ -35,6 +36,7 @@ persons = [
     Person("ae cummings", datetime.datetime(1944, 9, 10), "Male"),
 ]
 
+
 def loadOLV(olv):
     """Load the OLV with columns and data."""
     olv.SetColumns(personColumns)
@@ -42,6 +44,7 @@ def loadOLV(olv):
 
 
 class TestObjectListView(wtc.WidgetTestCase):
+
     """
     Setup of all base tests used for all types of ObjectListView's and do test the
     normal ObjectListView.
@@ -53,9 +56,10 @@ class TestObjectListView(wtc.WidgetTestCase):
         super(TestObjectListView, self).setUp()
 
         panel = wx.Panel(self.frame, -1)
-        self.objectListView = ObjectListView(panel, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
+        self.objectListView = ObjectListView(
+            panel, -1, style=wx.LC_REPORT | wx.SUNKEN_BORDER)
         sizerPanel = wx.BoxSizer(wx.VERTICAL)
-        sizerPanel.Add(self.objectListView, 1, wx.ALL|wx.EXPAND, 4)
+        sizerPanel.Add(self.objectListView, 1, wx.ALL | wx.EXPAND, 4)
         panel.SetSizer(sizerPanel)
 
         sizerFrame = wx.BoxSizer(wx.VERTICAL)
@@ -72,7 +76,9 @@ class TestObjectListView(wtc.WidgetTestCase):
         loadOLV(self.objectListView)
 
     def testBasicState(self):
-        self.assertEqual(self.objectListView.GetColumnCount(), len(personColumns))
+        self.assertEqual(
+            self.objectListView.GetColumnCount(),
+            len(personColumns))
         self.assertEqual(self.objectListView.GetItemCount(), len(persons))
 
     def testSelectObject(self):
@@ -81,7 +87,9 @@ class TestObjectListView(wtc.WidgetTestCase):
 
         males = [x for x in persons if x.sex == "Male"]
         self.objectListView.SelectObjects(males)
-        self.assertEqual(set(self.objectListView.GetSelectedObjects()), set(males))
+        self.assertEqual(
+            set(self.objectListView.GetSelectedObjects()),
+            set(males))
 
     def testSelectAll(self):
         self.objectListView.SelectAll()
@@ -109,7 +117,9 @@ class TestObjectListView(wtc.WidgetTestCase):
 
     def testGetSelectedObjects(self):
         self.objectListView.SelectAll()
-        self.assertEqual(set(self.objectListView.GetSelectedObjects()), set(persons))
+        self.assertEqual(
+            set(self.objectListView.GetSelectedObjects()),
+            set(persons))
 
         self.objectListView.SelectObject(persons[0])
         self.assertEqual(len(self.objectListView.GetSelectedObjects()), 1)
@@ -121,50 +131,78 @@ class TestObjectListView(wtc.WidgetTestCase):
         rowIndex = 1
         primaryColumn = self.objectListView.GetPrimaryColumnIndex()
         person = self.objectListView[rowIndex]
-        nameInList = self.objectListView.GetItem(rowIndex, primaryColumn).GetText()
+        nameInList = self.objectListView.GetItem(
+            rowIndex,
+            primaryColumn).GetText()
         self.assertEqual(nameInList, person.name)
 
         person.name = "Some different name"
         self.assertNotEqual(nameInList, person.name)
 
         self.objectListView.RefreshObject(person)
-        self.assertEqual(self.objectListView.GetItem(rowIndex, primaryColumn).GetText(), person.name)
+        self.assertEqual(
+            self.objectListView.GetItem(
+                rowIndex,
+                primaryColumn).GetText(),
+            person.name)
         person.name = nameInList
 
     def testSorting(self):
         self.objectListView.SortBy(0, False)
-        self.assertEqual(self.objectListView.GetItem(0).GetText(), "Zoe Meliko")
+        self.assertEqual(
+            self.objectListView.GetItem(0).GetText(),
+            "Zoe Meliko")
         self.objectListView.SortBy(0, True)
-        self.assertEqual(self.objectListView.GetItem(0).GetText(), "ae cummings")
+        self.assertEqual(
+            self.objectListView.GetItem(0).GetText(),
+            "ae cummings")
         self.objectListView.SortBy(2, False)
-        self.assertEqual(self.objectListView.GetItem(0).GetText(), "Ginger Hawk")
+        self.assertEqual(
+            self.objectListView.GetItem(0).GetText(),
+            "Ginger Hawk")
         self.objectListView.SortBy(2, True)
-        self.assertEqual(self.objectListView.GetItem(0).GetText(), "Ian Janide")
+        self.assertEqual(
+            self.objectListView.GetItem(0).GetText(),
+            "Ian Janide")
 
     def testColumnResizing(self):
-        widths = [self.objectListView.GetColumnWidth(i) for i in range(len(self.objectListView.columns))]
+        widths = [
+            self.objectListView.GetColumnWidth(i)
+            for i in range(len(self.objectListView.columns))]
         self.frame.SetSize(self.frame.GetSize() + (100, 100))
         self.objectListView.Layout()
 
-        # The space filling columns should have increased in width, but the others should be the same
+        # The space filling columns should have increased in width, but the
+        # others should be the same
         for (colIndex, oldWidth) in enumerate(widths):
             if self.objectListView.columns[colIndex].isSpaceFilling:
-                self.assertTrue(oldWidth < self.objectListView.GetColumnWidth(colIndex))
+                self.assertTrue(
+                    oldWidth < self.objectListView.GetColumnWidth(colIndex))
             else:
-                self.assertEqual(oldWidth, self.objectListView.GetColumnWidth(colIndex))
+                self.assertEqual(
+                    oldWidth,
+                    self.objectListView.GetColumnWidth(colIndex))
 
     def testEditing(self):
         rowIndex = 1
         primaryColumnIndex = self.objectListView.GetPrimaryColumnIndex()
         self.objectListView.cellEditMode = ObjectListView.CELLEDIT_F2ONLY
-        #self.objectListView.SortBy(primaryColumnIndex+1)
+        # self.objectListView.SortBy(primaryColumnIndex+1)
 
         originalName = self.objectListView[rowIndex].name
-        self.assertEqual(self.objectListView.GetItem(rowIndex, primaryColumnIndex).GetText(), originalName)
+        self.assertEqual(
+            self.objectListView.GetItem(
+                rowIndex,
+                primaryColumnIndex).GetText(),
+            originalName)
         self.objectListView.DeselectAll()
-        self.objectListView.SetItemState(rowIndex, wx.LIST_STATE_SELECTED | wx.LIST_STATE_FOCUSED, wx.LIST_STATE_SELECTED | wx.LIST_STATE_FOCUSED)
+        self.objectListView.SetItemState(
+            rowIndex,
+            wx.LIST_STATE_SELECTED | wx.LIST_STATE_FOCUSED,
+            wx.LIST_STATE_SELECTED | wx.LIST_STATE_FOCUSED)
 
-         # Fake an F2, change the value of the edit, and then fake a Return to commit the change
+        # Fake an F2, change the value of the edit, and then fake a Return to
+        # commit the change
         evt = wx.KeyEvent(wx.EVT_CHAR.evtType[0])
         evt.m_keyCode = wx.WXK_F2
         self.objectListView._HandleChar(evt)
@@ -173,7 +211,11 @@ class TestObjectListView(wtc.WidgetTestCase):
         self.objectListView.FinishCellEdit()
         evt.m_keyCode = wx.WXK_RETURN
         self.objectListView._HandleChar(evt)
-        self.assertEqual(self.objectListView.GetItem(rowIndex, primaryColumnIndex).GetText(), "new name for X")
+        self.assertEqual(
+            self.objectListView.GetItem(
+                rowIndex,
+                primaryColumnIndex).GetText(),
+            "new name for X")
 
         # Put the original value back
         evt.m_keyCode = wx.WXK_F2
@@ -183,7 +225,11 @@ class TestObjectListView(wtc.WidgetTestCase):
         self.objectListView.FinishCellEdit()
         evt.m_keyCode = wx.WXK_RETURN
         self.objectListView._HandleChar(evt)
-        self.assertEqual(self.objectListView.GetItem(rowIndex, primaryColumnIndex).GetText(), originalName)
+        self.assertEqual(
+            self.objectListView.GetItem(
+                rowIndex,
+                primaryColumnIndex).GetText(),
+            originalName)
 
     def testLackOfCheckboxes(self):
         self.objectListView.InstallCheckStateColumn(None)
@@ -209,12 +255,12 @@ class TestObjectListView(wtc.WidgetTestCase):
     def testAutoCheckboxes(self):
         col = ColumnDefn("Check")
         self.objectListView.AddColumnDefn(col)
-        self.assertTrue(col.checkStateGetter == None)
-        self.assertTrue(col.checkStateSetter == None)
+        self.assertTrue(col.checkStateGetter is None)
+        self.assertTrue(col.checkStateSetter is None)
 
         self.objectListView.InstallCheckStateColumn(col)
-        self.assertTrue(col.checkStateGetter != None)
-        self.assertTrue(col.checkStateSetter != None)
+        self.assertTrue(col.checkStateGetter is not None)
+        self.assertTrue(col.checkStateSetter is not None)
 
         object = self.objectListView[0]
         self.assertEqual(self.objectListView.IsChecked(object), False)
@@ -225,10 +271,14 @@ class TestObjectListView(wtc.WidgetTestCase):
     def testCheckboxes(self):
         def myGetter(modelObject):
             return getattr(modelObject, "isChecked", False)
+
         def mySetter(modelObject, newValue):
             modelObject.isChecked = newValue
         self.objectListView.SetImageLists()
-        col = ColumnDefn("Check", checkStateGetter=myGetter, checkStateSetter=mySetter)
+        col = ColumnDefn(
+            "Check",
+            checkStateGetter=myGetter,
+            checkStateSetter=mySetter)
         self.objectListView.AddColumnDefn(col)
         self.assertEqual(self.objectListView.checkStateColumn, col)
 
@@ -245,7 +295,9 @@ class TestObjectListView(wtc.WidgetTestCase):
         self.assertEqual(self.objectListView.IsChecked(firstObject), True)
         self.assertEqual(self.objectListView.IsChecked(lastObject), True)
         if not isinstance(self.objectListView, VirtualObjectListView):
-            self.assertEqual(set(self.objectListView.GetCheckedObjects()), set([firstObject, lastObject]))
+            self.assertEqual(
+                set(self.objectListView.GetCheckedObjects()),
+                set([firstObject, lastObject]))
 
         self.objectListView.Uncheck(firstObject)
         self.assertEqual(self.objectListView.IsChecked(firstObject), False)
@@ -256,21 +308,30 @@ class TestObjectListView(wtc.WidgetTestCase):
         self.assertEqual(self.objectListView.IsChecked(lastObject), False)
 
     def testNoAlternateColours(self):
-        # When there is no alternate colors, each row's background colour should be invalid
+        # When there is no alternate colors, each row's background colour
+        # should be invalid
         self.objectListView.useAlternateBackColors = False
         self.objectListView.RepopulateList()
-        bkgdColours = [self.getBackgroundColour(i) for i in range(self.objectListView.GetItemCount())]
-        self.assertFalse(self.objectListView.oddRowsBackColor in set(bkgdColours))
-        self.assertFalse(self.objectListView.evenRowsBackColor in set(bkgdColours))
+        bkgdColours = [
+            self.getBackgroundColour(i)
+            for i in range(self.objectListView.GetItemCount())]
+        self.assertFalse(
+            self.objectListView.oddRowsBackColor in set(bkgdColours))
+        self.assertFalse(
+            self.objectListView.evenRowsBackColor in set(bkgdColours))
 
     def testAlternateColours(self):
         self.objectListView.useAlternateBackColors = True
         self.objectListView.RepopulateList()
         for i in range(self.objectListView.GetItemCount()):
             if i & 1:
-                self.assertEqual(self.objectListView.oddRowsBackColor, self.getBackgroundColour(i))
+                self.assertEqual(
+                    self.objectListView.oddRowsBackColor,
+                    self.getBackgroundColour(i))
             else:
-                self.assertEqual(self.objectListView.evenRowsBackColor, self.getBackgroundColour(i))
+                self.assertEqual(
+                    self.objectListView.evenRowsBackColor,
+                    self.getBackgroundColour(i))
 
     def getBackgroundColour(self, i):
         # There is no consistent way to get the background color of an item (i.e. one that
@@ -289,7 +350,9 @@ class TestObjectListView(wtc.WidgetTestCase):
         self.objectListView.SetFilter(Filter.Head(1))
         self.objectListView.SetObjects(persons)
         self.assertEqual(len(self.objectListView.GetFilteredObjects()), 1)
-        self.assertEqual(self.objectListView.GetFilteredObjects()[0], persons[0])
+        self.assertEqual(
+            self.objectListView.GetFilteredObjects()[0],
+            persons[0])
 
         self.objectListView.SetFilter(None)
 
@@ -302,39 +365,56 @@ class TestObjectListView(wtc.WidgetTestCase):
         else:
             firstDataIndex = 0
         self.assertEqual(len(self.objectListView.GetFilteredObjects()), 1)
-        self.assertEqual(self.objectListView.GetFilteredObjects()[0], persons[-1])
+        self.assertEqual(
+            self.objectListView.GetFilteredObjects()[0],
+            persons[-1])
 
         self.objectListView.SetFilter(None)
 
     def testFilteringPredicate(self):
         males = [x for x in persons if x.sex == "Male"]
-        self.objectListView.SetFilter(Filter.Predicate(lambda person: person.sex == "Male"))
+        self.objectListView.SetFilter(
+            Filter.Predicate(
+                lambda person: person.sex == "Male"))
         self.objectListView.SetSortColumn(personColumns[-1])
         self.objectListView.SetObjects(persons)
 
-        self.assertEqual(set(self.objectListView.GetFilteredObjects()), set(males))
+        self.assertEqual(
+            set(self.objectListView.GetFilteredObjects()),
+            set(males))
 
         self.objectListView.SetFilter(None)
 
     def testFilteringTextSearch(self):
-        containsF = [x for x in persons if "f" in x.sex.lower() or  "f" in x.name.lower()]
+        containsF = [
+            x for x in persons
+            if "f" in x.sex.lower() or "f" in x.name.lower()]
 
-        self.objectListView.SetFilter(Filter.TextSearch(self.objectListView, text="f"))
+        self.objectListView.SetFilter(
+            Filter.TextSearch(
+                self.objectListView,
+                text="f"))
         self.objectListView.SetObjects(persons)
-        self.assertEqual(set(self.objectListView.GetFilteredObjects()), set(containsF))
+        self.assertEqual(
+            set(self.objectListView.GetFilteredObjects()),
+            set(containsF))
 
         self.objectListView.SetFilter(None)
 
     def testFilteringChain(self):
         filterMale = Filter.Predicate(lambda person: person.sex == "Male")
         filterContainsF = Filter.TextSearch(self.objectListView, text="f")
-        self.objectListView.SetFilter(Filter.Chain(filterMale, filterContainsF))
+        self.objectListView.SetFilter(
+            Filter.Chain(
+                filterMale,
+                filterContainsF))
         self.objectListView.SetObjects(persons)
         self.assertEqual(len(self.objectListView.GetFilteredObjects()), 1)
-        self.assertEqual(self.objectListView.GetFilteredObjects()[0].name, "Eric Fandango")
+        self.assertEqual(
+            self.objectListView.GetFilteredObjects()[0].name,
+            "Eric Fandango")
 
         self.objectListView.SetFilter(None)
-
 
 
 class TestFastObjectListView(TestObjectListView):
@@ -343,9 +423,10 @@ class TestFastObjectListView(TestObjectListView):
         super(TestFastObjectListView, self).setUp()
 
         panel = wx.Panel(self.frame, -1)
-        self.objectListView = FastObjectListView(panel, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
+        self.objectListView = FastObjectListView(
+            panel, -1, style=wx.LC_REPORT | wx.SUNKEN_BORDER)
         sizerPanel = wx.BoxSizer(wx.VERTICAL)
-        sizerPanel.Add(self.objectListView, 1, wx.ALL|wx.EXPAND, 4)
+        sizerPanel.Add(self.objectListView, 1, wx.ALL | wx.EXPAND, 4)
         panel.SetSizer(sizerPanel)
 
         sizerFrame = wx.BoxSizer(wx.VERTICAL)
@@ -354,15 +435,17 @@ class TestFastObjectListView(TestObjectListView):
 
         loadOLV(self.objectListView)
 
-    #----------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     # Override inherited tests
 
     def getBackgroundColour(self, i):
         # There is no direct way to get the background colour of an item in a virtual
-        # list, so we have to cheat by approximating the process of building a list item
+        # list, so we have to cheat by approximating the process of building a
+        # list item
         attr = self.objectListView.OnGetItemAttr(i)
         if attr is None or not attr.HasBackgroundColour():
-            return self.objectListView.GetItemBackgroundColour(i) # this returns an invalid color
+            # this returns an invalid color
+            return self.objectListView.GetItemBackgroundColour(i)
         else:
             return attr.GetBackgroundColour()
 
@@ -373,9 +456,10 @@ class TestVirtualObjectListView(TestObjectListView):
         super(TestVirtualObjectListView, self).setUp()
 
         panel = wx.Panel(self.frame, -1)
-        self.objectListView = VirtualObjectListView(panel, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
+        self.objectListView = VirtualObjectListView(
+            panel, -1, style=wx.LC_REPORT | wx.SUNKEN_BORDER)
         sizerPanel = wx.BoxSizer(wx.VERTICAL)
-        sizerPanel.Add(self.objectListView, 1, wx.ALL|wx.EXPAND, 4)
+        sizerPanel.Add(self.objectListView, 1, wx.ALL | wx.EXPAND, 4)
         panel.SetSizer(sizerPanel)
 
         sizerFrame = wx.BoxSizer(wx.VERTICAL)
@@ -389,7 +473,6 @@ class TestVirtualObjectListView(TestObjectListView):
         self.objectListView.SetObjectGetter(lambda i: persons[i])
         self.objectListView.Bind(EVT_SORT, self._handleSort)
 
-
     def _handleSort(self, evt):
         col = evt.objectListView.columns[evt.sortColumnIndex]
 
@@ -400,18 +483,23 @@ class TestVirtualObjectListView(TestObjectListView):
             else:
                 return value
 
-        persons.sort(key=_getLowerCaseSortValue, reverse=(not evt.sortAscending))
+        persons.sort(
+            key=_getLowerCaseSortValue,
+            reverse=(
+                not evt.sortAscending))
         evt.objectListView.RefreshObjects()
 
-    #----------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     # Override inherited tests
 
     def getBackgroundColour(self, i):
         # There is no direct way to get the background colour of an item in a virtual
-        # list, so we have to cheat by approximating the process of building a list item
+        # list, so we have to cheat by approximating the process of building a
+        # list item
         attr = self.objectListView.OnGetItemAttr(i)
         if attr is None or not attr.HasBackgroundColour():
-            return self.objectListView.GetItemBackgroundColour(i) # this returns an invalid color
+            # this returns an invalid color
+            return self.objectListView.GetItemBackgroundColour(i)
         else:
             return attr.GetBackgroundColour()
 
@@ -422,17 +510,33 @@ class TestVirtualObjectListView(TestObjectListView):
         self.objectListView.SetItemCount(len(persons))
         self.assertFalse(self.objectListView.stEmptyListMsg.IsShown())
 
-    # Virtual lists can't get or set selected objects -- Is this really true? Does it have to be?
-    def testSelectObject(self): pass
-    def testGetSelectedObject(self): pass
-    def testGetSelectedObjects(self): pass
+    # Virtual lists can't get or set selected objects -- Is this really true?
+    # Does it have to be?
+    def testSelectObject(self):
+        pass
 
-    # Virtual lists can't filter since the model objects are not controlly by it
-    def testFilteringHead(self): pass
-    def testFilteringTail(self): pass
-    def testFilteringPredicate(self): pass
-    def testFilteringTextSearch(self): pass
-    def testFilteringChain(self): pass
+    def testGetSelectedObject(self):
+        pass
+
+    def testGetSelectedObjects(self):
+        pass
+
+    # Virtual lists can't filter since the model objects are not controlly by
+    # it
+    def testFilteringHead(self):
+        pass
+
+    def testFilteringTail(self):
+        pass
+
+    def testFilteringPredicate(self):
+        pass
+
+    def testFilteringTextSearch(self):
+        pass
+
+    def testFilteringChain(self):
+        pass
 
 
 class TestGroupObjectListView(TestObjectListView):
@@ -441,9 +545,10 @@ class TestGroupObjectListView(TestObjectListView):
         super(TestGroupObjectListView, self).setUp()
 
         panel = wx.Panel(self.frame, -1)
-        self.objectListView = GroupListView(panel, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
+        self.objectListView = GroupListView(
+            panel, -1, style=wx.LC_REPORT | wx.SUNKEN_BORDER)
         sizerPanel = wx.BoxSizer(wx.VERTICAL)
-        sizerPanel.Add(self.objectListView, 1, wx.ALL|wx.EXPAND, 4)
+        sizerPanel.Add(self.objectListView, 1, wx.ALL | wx.EXPAND, 4)
         panel.SetSizer(sizerPanel)
 
         sizerFrame = wx.BoxSizer(wx.VERTICAL)
@@ -452,16 +557,20 @@ class TestGroupObjectListView(TestObjectListView):
 
         loadOLV(self.objectListView)
 
-    #----------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     # Override inherited tests
 
     def testBasicState(self):
-        self.assertEqual(self.objectListView.GetColumnCount(), len(personColumns)+1)
-        self.assertEqual(self.objectListView.GetItemCount(),
-                         len(persons) + len(self.objectListView.groups) * 2 - 1)
+        self.assertEqual(
+            self.objectListView.GetColumnCount(),
+            len(personColumns) + 1)
+        self.assertEqual(
+            self.objectListView.GetItemCount(),
+            len(persons) + len(self.objectListView.groups) * 2 - 1)
 
     def testSorting(self):
-        # Sorting within a GroupListView is completely different from an ObjectListView
+        # Sorting within a GroupListView is completely different from an
+        # ObjectListView
         pass
 
     def testSelectAll(self):
@@ -477,16 +586,22 @@ class TestGroupObjectListView(TestObjectListView):
         for i in range(self.objectListView.GetItemCount()):
             if self.objectListView.GetObjectAt(i):
                 if i & 1:
-                    self.assertEqual(self.objectListView.oddRowsBackColor, self.getBackgroundColour(i))
+                    self.assertEqual(
+                        self.objectListView.oddRowsBackColor,
+                        self.getBackgroundColour(i))
                 else:
-                    self.assertEqual(self.objectListView.evenRowsBackColor, self.getBackgroundColour(i))
+                    self.assertEqual(
+                        self.objectListView.evenRowsBackColor,
+                        self.getBackgroundColour(i))
 
     def getBackgroundColour(self, i):
         # There is no direct way to get the background colour of an item in a virtual
-        # list, so we have to cheat by approximating the process of building a list item
+        # list, so we have to cheat by approximating the process of building a
+        # list item
         attr = self.objectListView.OnGetItemAttr(i)
         if attr is None or not attr.HasBackgroundColour():
-            return self.objectListView.GetItemBackgroundColour(i) # this returns an invalid color
+            # this returns an invalid color
+            return self.objectListView.GetItemBackgroundColour(i)
         else:
             return attr.GetBackgroundColour()
 

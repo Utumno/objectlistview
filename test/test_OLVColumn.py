@@ -5,6 +5,7 @@ from datetime import datetime, date, time
 
 from ObjectListView import ObjectListView, ColumnDefn
 
+
 class TestColumnDefn(unittest.TestCase):
 
     def testInitialState(self):
@@ -63,7 +64,11 @@ class TestColumnDefn(unittest.TestCase):
         self.assertEqual(col.width, 200)
         self.assertEqual(col.IsFixedWidth(), False)
 
-        col = ColumnDefn(width=100, fixedWidth=32, minimumWidth=200, maximumWidth=250)
+        col = ColumnDefn(
+            width=100,
+            fixedWidth=32,
+            minimumWidth=200,
+            maximumWidth=250)
         self.assertEqual(col.width, 32)
         self.assertEqual(col.IsFixedWidth(), True)
 
@@ -76,6 +81,7 @@ class TestColumnValueGetting(unittest.TestCase):
             return modelObject.otherAspectToGet * 2
 
         class DataObject:
+
             def __init__(self, value1, value2):
                 self.aspectToGet = value1
                 self.otherAspectToGet = value2
@@ -100,6 +106,7 @@ class TestColumnValueGetting(unittest.TestCase):
             return modelObject.otherAspectToGet * 2
 
         class DataObject:
+
             def __init__(self, value1, value2):
                 self.aspectToGet = value1
                 self.otherAspectToGet = value2
@@ -117,8 +124,10 @@ class TestColumnValueGetting(unittest.TestCase):
         col3 = ColumnDefn("title", valueGetter="missingAspect")
 
         class DataObject:
+
             def aspectToGet(self):
                 return "valueToGet"
+
             def otherAspectToGet(self):
                 return 2
 
@@ -162,7 +171,9 @@ class TestStringConverter(unittest.TestCase):
             else:
                 return "Other"
         colWithoutConverter = ColumnDefn(valueGetter="aspectToGet")
-        colWithConverter = ColumnDefn(valueGetter="aspectToGet", stringConverter=converterFunction)
+        colWithConverter = ColumnDefn(
+            valueGetter="aspectToGet",
+            stringConverter=converterFunction)
 
         data = {"aspectToGet": 2}
         self.assertEqual(colWithoutConverter.GetStringValue(data), "2")
@@ -175,11 +186,17 @@ class TestStringConverter(unittest.TestCase):
     def testStringConverterFormat(self):
         col1 = ColumnDefn(valueGetter="aspectToGet")
         col2 = ColumnDefn(valueGetter="aspectToGet", stringConverter="%02X")
-        col3 = ColumnDefn(valueGetter="dateTimeCreated", stringConverter="%Y-%m-%d %H:%M:%S")
-        col4 = ColumnDefn(valueGetter="dateCreated", stringConverter="%Y-%m-%d")
-        col5 = ColumnDefn(valueGetter="timeCreated", stringConverter="%H:%M:%S")
+        col3 = ColumnDefn(
+            valueGetter="dateTimeCreated",
+            stringConverter="%Y-%m-%d %H:%M:%S")
+        col4 = ColumnDefn(
+            valueGetter="dateCreated",
+            stringConverter="%Y-%m-%d")
+        col5 = ColumnDefn(
+            valueGetter="timeCreated",
+            stringConverter="%H:%M:%S")
 
-        data = {"aspectToGet": 15 }
+        data = {"aspectToGet": 15}
         data["dateTimeCreated"] = datetime(1965, 10, 29, 12, 13, 14)
         data["dateCreated"] = date(1965, 10, 29)
         data["timeCreated"] = time(12, 13, 14)
@@ -199,6 +216,7 @@ class TestValueSettingWithSetter(unittest.TestCase):
             modelObject.someAttribute = value
 
         class DataObject:
+
             def __init__(self, value1, value2):
                 self.someAttribute = value1
                 self.someOtherAttribute = value2
@@ -213,9 +231,10 @@ class TestValueSettingWithSetter(unittest.TestCase):
     def testValueSetterMethod(self):
 
         class DataObject:
+
             def __init__(self, value1, value2):
-                   self.someAttribute = value1
-                   self.someOtherAttribute = value2
+                self.someAttribute = value1
+                self.someOtherAttribute = value2
 
             def SetSomeAttribute(self, value):
                 self.someAttribute = value
@@ -230,9 +249,10 @@ class TestValueSettingWithSetter(unittest.TestCase):
     def testValueSetterAttributeName(self):
 
         class DataObject:
+
             def __init__(self, value1, value2):
-                   self.someAttribute = value1
-                   self.someOtherAttribute = value2
+                self.someAttribute = value1
+                self.someOtherAttribute = value2
 
         data = DataObject("firstValue", "secondValue")
         col = ColumnDefn(valueSetter="someAttribute")
@@ -244,9 +264,10 @@ class TestValueSettingWithSetter(unittest.TestCase):
     def testValueSetterWrongName(self):
 
         class DataObject:
+
             def __init__(self, value1, value2):
-                   self.someAttribute = value1
-                   self.someOtherAttribute = value2
+                self.someAttribute = value1
+                self.someOtherAttribute = value2
 
         data = DataObject("firstValue", "secondValue")
         col = ColumnDefn(valueSetter="aNameThatIsntAnAttribute")
@@ -261,6 +282,7 @@ class TestValueSettingWithGetter(unittest.TestCase):
     def testValueGetterAttribute(self):
 
         class DataObject:
+
             def __init__(self, value1, value2):
                 self.aspectToGet = value1
                 self.otherAspectToGet = value2
@@ -283,6 +305,7 @@ class TestValueSettingWithGetter(unittest.TestCase):
             return modelObject.otherAspectToGet * 2
 
         class DataObject:
+
             def __init__(self, value1, value2):
                 self.aspectToGet = value1
                 self.otherAspectToGet = value2
@@ -300,6 +323,7 @@ class TestValueSettingWithGetter(unittest.TestCase):
             return modelObject.otherAspectToGet * 2
 
         class DataObject:
+
             def __init__(self, value1, value2):
                 self.aspectToGet = value1
                 self.otherAspectToGet = value2
@@ -314,8 +338,10 @@ class TestValueSettingWithGetter(unittest.TestCase):
     def testValueGetterMethod(self):
 
         class DataObject:
+
             def aspectToGet(self):
                 return "firstValue"
+
             def otherAspectToGet(self):
                 return 2
 
@@ -325,7 +351,6 @@ class TestValueSettingWithGetter(unittest.TestCase):
         self.assertEqual(data.aspectToGet(), "firstValue")
         col.SetValue(data, "newValue")
         self.assertEqual(data.aspectToGet(), "firstValue")
-
 
     def testValueGetterDictionaryModifying(self):
         data = {"aspectToGet": "firstValue", "otherAspectToGet": 2}
@@ -361,6 +386,7 @@ class TestCheckState(wtc.WidgetTestCase):
     def testGetting(self):
 
         class DataObject:
+
             def __init__(self):
                 self.isChecked = True
 
@@ -377,6 +403,7 @@ class TestCheckState(wtc.WidgetTestCase):
     def testSetting(self):
 
         class DataObject:
+
             def __init__(self):
                 self.isChecked = True
 
