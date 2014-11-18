@@ -107,6 +107,11 @@ import six
 from . import CellEditor
 from . import OLVEvent
 
+if six.PY3:
+    # python 3 lacks cmp:
+    def cmp(a, b):
+        return (a > b) - (a < b)
+
 
 class ObjectListView(wx.ListCtrl):
 
