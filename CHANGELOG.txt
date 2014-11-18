@@ -5,6 +5,18 @@
 Change Log
 ==========
 
+2014-11-18 - tests pass on Py3.4 and Phoenix 3.0.2 except the testNoAlternateColours
+
+2014-11-18 - tests pass on Py2.7 with wxPython 2.8.12.1 and Phoenix 3.0.2
+
+2014-11-18 - use autopep8 to format code as per PEP8, with exception of line length
+
+2014-11-18 - more fixes to make it compatible with Python 3
+
+2014-11-17 - updated tests to use Phoenix WidgetTestCase
+
+2014-11-17 - changed the ITEM_CHECKED event so API for SetCheckState is not changed
+
 2014-11-12 - v1.2.1, Python 3.x and Phoenix related changes
 
 2014-11-12 - add an ITEM_CHECKED event
