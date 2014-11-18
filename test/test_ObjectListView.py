@@ -479,7 +479,7 @@ class TestVirtualObjectListView(TestObjectListView):
 
         def _getLowerCaseSortValue(x):
             value = col.GetValue(x)
-            if isinstance(value, six.text_type):
+            if isinstance(value, six.string_types):
                 return value.lower()
             else:
                 return value
