@@ -813,8 +813,12 @@ class ObjectListView(wx.ListCtrl):
             self.SetItem(listItem)
 
         for iCol in range(1, len(self.columns)):
-            self.SetStringItem(index, iCol, self.GetStringValueAt(modelObject, iCol),
-                               self.GetImageAt(modelObject, iCol))
+            if 'phoenix' in wx.PlatformInfo:
+                self.SetItem(index, iCol, self.GetStringValueAt(modelObject, iCol),
+                             self.GetImageAt(modelObject, iCol))
+            else:
+                self.SetStringItem(index, iCol, self.GetStringValueAt(modelObject, iCol),
+                                   self.GetImageAt(modelObject, iCol))
 
 
     def RefreshObject(self, modelObject):
@@ -892,7 +896,10 @@ class ObjectListView(wx.ListCtrl):
         #else:
         #    clientSize = self.GetClientSizeTuple()[0]
         #freeSpace = max(0, clientSize - totalFixedWidth)
-        freeSpace = max(0, self.GetClientSizeTuple()[0] - totalFixedWidth)
+        if 'phoenix' in wx.PlatformInfo:
+            freeSpace = max(0, self.GetClientSize()[0] - totalFixedWidth)
+        else:
+            freeSpace = max(0, self.GetClientSizeTuple()[0] - totalFixedWidth)
 
         # Calculate the total number of slices the free space will be divided into
         totalProportion = sum(x.freeSpaceProportion for x in self.columns if x.isSpaceFilling)
@@ -1429,7 +1436,7 @@ class ObjectListView(wx.ListCtrl):
         if evt.GetUnicodeKey() == 0:
             uniChar = chr(evt.GetKeyCode())
         else:
-            uniChar = unichr(evt.GetUnicodeKey())
+            uniChar = evt.GetUnicodeKey()
         if uniChar not in string.printable:
             return False
 
@@ -1969,7 +1976,10 @@ class ObjectListView(wx.ListCtrl):
         """
         Return the index in the list where the given model index lives
         """
-        return self.FindItemData(-1, modelIndex)
+        if 'phoenix' in wx.PlatformInfo:
+            return self.FindItem(-1, modelIndex)
+        else:
+            return self.FindItemData(-1, modelIndex)
 
     #----------------------------------------------------------------------------
     # Cell editing
@@ -2068,7 +2078,10 @@ class ObjectListView(wx.ListCtrl):
         """
         Perform the normal configuration on the cell editor.
         """
-        editor.SetDimensions(*bounds)
+        if 'phoenix' in wx.PlatformInfo:
+            editor.SetSize(*bounds)
+        else:
+            editor.SetDimensions(*bounds)
 
         colour = self.GetItemBackgroundColour(rowIndex)
         if colour.IsOk():
