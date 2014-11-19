@@ -3988,9 +3988,9 @@ class ColumnDefn(object):
         evt = OLVEvent.ItemCheckedEvent(self, modelObject, state)
         # Is there a shorter way to get at the EventHandler?
         if self._EventHandler:
-            self._EventHandler.ProcessEvent(evt)
+            wx.CallAfter(self._EventHandler.ProcessEvent, evt)
         else:
-            wx.GetApp().GetTopWindow().GetEventHandler().ProcessEvent(evt)
+            wx.CallAfter(wx.GetApp().GetTopWindow().GetEventHandler().ProcessEvent, evt)
 
         if self.checkStateSetter is None:
             return self._SetValueUsingMunger(
