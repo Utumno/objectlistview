@@ -1,4 +1,4 @@
 -f http://wxpython.org/Phoenix/snapshot-builds/
---allow-external wxPython-Phoenix
---allow-unverified wxPython-Phoenix
-wxPython-Phoenix==3.0.2.dev78176
+--allow-external wxPython_Phoenix
+--allow-unverified wxPython_Phoenix
+wxPython_Phoenix==3.0.2.dev78176
