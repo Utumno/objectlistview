@@ -691,7 +691,7 @@ class ObjectListView(wx.ListCtrl):
         import win32clipboard
 
         MARKER_BLOCK_OUTPUT = \
-            "Version:1.0\r\n" \
+            "Version:1.3\r\n" \
             "StartHTML:%09d\r\n" \
             "EndHTML:%09d\r\n" \
             "StartFragment:%09d\r\n" \
@@ -705,7 +705,7 @@ class ObjectListView(wx.ListCtrl):
             "<HTML><HEAD></HEAD><BODY><!--StartFragment-->%s<!--EndFragment--></BODY></HTML>"
 
         html = DEFAULT_HTML_BODY % fragment
-        source = "http://objectlistview.sourceforge.net/python"
+        source = "https://bitbucket.org/wbruhin/objectlistview/downloads"
 
         fragmentStart = selectionStart = html.index(fragment)
         fragmentEnd = selectionEnd = fragmentStart + len(fragment)

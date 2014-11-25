@@ -1,4 +1,5 @@
 .. -*- coding: UTF-8 -*-
+.. include:: _substitutions.txt
 
 .. _getting-started-label:
 
@@ -363,9 +364,8 @@ Well done! You've made it to the end of the tutorial. You should by now have a r
 grasp of some of the things an ObjectListView can do, and how to use it in your
 application.
 
-If you need further help, you can look at the :ref:`Cookbook <cookbook-label>` and the `Forum
-<https://sourceforge.net/forum/forum.php?forum_id=825500>`_ for those questions
-that just don't have answer anywhere else.
+If you need further help, you can look at the :ref:`Cookbook <cookbook-label>` and you might
+also want to check |StackExchange| for those questions that are not covered in this documentation.
 
 Don't forget: Use The Source Luke! You have all the source code. If you can't figure
 something out, read the code and see what is actually happening.

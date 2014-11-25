@@ -1,12 +1,13 @@
 .. -*- coding: UTF-8 -*-
+.. include:: _substitutions.txt
 
 Major Classes Reference
 =======================
 
-* :ref:objectlistview-class
-* :ref:columndefn-class
-* :ref:grouplistview-class
-* :ref:batchedupdate-class
+* :ref:`objectlistview-class`
+* :ref:`columndefn-class`
+* :ref:`grouplistview-class`
+* :ref:`batchedupdate-class`
 
 .. _objectlistview-class:
 
