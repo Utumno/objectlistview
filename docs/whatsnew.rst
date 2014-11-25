@@ -1,9 +1,19 @@
 .. -*- coding: UTF-8 -*-
+.. include:: _substitutions.txt
 
 What's New?
 ===========
 
 For the (mostly) complete change log, :ref:`see here <changelog>`.
+
+
+v1.3 - November 2014
+--------------------
+
+* Make ObjectListView compatible with wxPython 2.9, 3.x
+* Make ObjectListView compatible with wxPython Phoenix on Python 2.7 and 3.4
+* Added an ITEM_CHECKED event
+* Update documenation, mainly links to Bitbucket and Read the Docs
 
 v1.2 - September 2008
 ---------------------

@@ -5,6 +5,42 @@
 Change Log
 ==========
 
+2014-11-18 - tests pass on Py3.4 and Phoenix 3.0.2 except the testNoAlternateColours
+
+2014-11-18 - tests pass on Py2.7 with wxPython 2.8.12.1, 2.9.5, 3.0.2 and Phoenix 3.0.2
+
+2014-11-18 - use autopep8 to format code as per PEP8, with exception of line length
+
+2014-11-18 - more fixes to make it compatible with Python 3
+
+2014-11-17 - updated tests to use Phoenix WidgetTestCase
+
+2014-11-17 - changed the ITEM_CHECKED event so API for SetCheckState is not changed
+
+2014-11-12 - v1.2.1, Python 3.x and Phoenix related changes
+
+2014-11-12 - add an ITEM_CHECKED event
+
+2014-11-12 - use six (https://pypi.python.org/pypi/six) for six.string_types, BytesIO and sorted for Py3 compatiblity
+
+2014-11-12 - make import Py3 compatible
+
+2014-11-12 - Change ListItem.m_something to ListItem.Something property for Phoenix
+
+2014-11-12 - make Bitmap, Image, SetDimension, InsertColumnInfo Phoenix compatible
+
+2014-11-12 - DatePickerCtrl moved to wx.adv in Phoenix
+
+2014-11-12 - RefreshItems only if there are items
+
+2014-11-12 - use altDown, controlDown and shiftDown for wxPython 2.9.1+
+
+2014-11-12 - keep version info only in __init__
+
+2014-11-12 - remove 'SVN-ID'
+
+2014-11-12 - created a BitBucket repo at: https://bitbucket.org/wbruhin/objectlistview
+
 2008-09-04 23:12 (#250) - setup.py
   - v1.2
 
