@@ -1,0 +1,9 @@
+.. |download| replace::
+   source package of the ObjectListView from BitBucket
+.. _download: https://bitbucket.org/wbruhin/objectlistview/downloads
+.. |StackExchange| replace::
+   StackExchange with a tag of 'objectlistview'
+.. StackExchange: http://stackexchange.com
+.. |IssueTracker| replace::
+   project's Issue Tracker
+.. IssueTracker: https://bitbucket.org/wbruhin/objectlistview/issues

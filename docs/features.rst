@@ -1,4 +1,5 @@
 .. -*- coding: UTF-8 -*-
+.. include:: _substitutions.txt
 
 .. _features:
 

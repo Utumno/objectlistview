@@ -1,4 +1,5 @@
 .. -*- coding: UTF-8 -*-
+.. include:: _substitutions.txt
 
 ==============
 ObjectListView
@@ -42,10 +43,10 @@ Seriously, after using an ObjectListView, you will never go back to using a plai
 OK, I'm interested. What do I do next?
 --------------------------------------
 
-You can download a `source package of the ObjectListView
-<https://sourceforge.net/project/showfiles.php?group_id=225207&package_id=280564>`_ which includes
-the ObjectListView module, as well as some demo applications showing ObjectListView in
-action.
+You can download a |download|_, select one of the version tags or `tip`
+for the current development version, if you are not a developer it is recommended that you download
+the most recent version.  To install it to your installed Python version run `setup.py install` from
+the base folder.
 
 After that, you might want to look at the :ref:`Getting Started
 <getting-started-label>` and the :ref:`Cookbook <cookbook-label>` sections. Please make
@@ -54,30 +55,34 @@ sure you have read and understood these sections before asking questions in the 
 At some point, you will want to do something with an ObjectListView and it won't be
 immediately obvious how to make it happen. After dutifully scouring the :ref:`Getting
 Started <getting-started-label>` and the :ref:`Cookbook <cookbook-label>` sections, you
-decide that is is still not obvious. The `Forum
-<https://sourceforge.net/forum/forum.php?forum_id=825500>`_ section is the place to find
-all your as-yet-unasked questions.
+decide that is is still not obvious.
 
 It may even be possible that you might find some undocumented features in the code (also
-known as bugs). These "features" can be reported to the `project's Issue Tracker
-<https://sourceforge.net/tracker/?func=add&group_id=225207&atid=1064157>`_ and the status
-of your "feature" report can be `tracked here
-<https://sourceforge.net/tracker/?group_id=225207&atid=1064157>`_.
+known as bugs). These "features" can be reported and tracked on the |IssueTracker|.
 
-If you would like to ask me a question or suggest an improvement, you can contact me here:
-jppx1@bigfoot.com.
+Please do not use the old address on SourceForge which you might come across on Google or other
+sources.
+
+If you have a question you might ask on |StackExchange| or on the
+`wxPython-users list <wxpython-users@googlegroups.com>`_.
 
 Bleeding-edge source
 --------------------
 
-If you are a very keen developer, you can access the SVN repository directly for this
-project. The following SVN command will fetch the most recent version from the repository::
+If you are a very keen developer, you can access the Bitbucket repository directly for this
+project. The following hg command will fetch the most recent version from the repository.
 
- svn co https://objectlistview.svn.sourceforge.net/svnroot/objectlistview/python/trunk objectlistview
+Using ssh::
 
-There are details on `how to use Subversion here <https://sourceforge.net/docs/E09>`_ on SourceForge.
+ hg clone ssh://hg@bitbucket.org/wbruhin/objectlistview
 
-Please remember that code within the SVN is bleeding edge. It has not been well-tested and
+Using https::
+
+  hg clone https://wbruhin@bitbucket.org/wbruhin/objectlistview
+
+The 101 about Bitbucket can be found `here <https://confluence.atlassian.com/display/BITBUCKET/Bitbucket+101;jsessionid=880D3872C3FC71C236B6EC986C2AF5A5.node2>`_.
+
+Please remember that code within Bitbucket is bleeding edge. It has not been well-tested and
 is almost certainly full of bugs. If you just want to play with the ObjectListView, it's
 better to stay with the official releases, where the bugs are (hopefully) less obvious.
 
