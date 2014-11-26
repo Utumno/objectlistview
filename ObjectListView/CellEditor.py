@@ -220,7 +220,7 @@ class BaseCellTextEditor(wx.TextCtrl):
                 style |= (wx.TE_CENTRE | wx.TE_MULTILINE)
             else:
                 style |= olv.columns[subItemIndex].GetAlignmentForText()
-        wx.TextCtrl.__init__(self, olv, style=style, size=(0, 0), **kwargs)
+        super(BaseCellTextEditor, self).__init__(olv, style=style, size=(0, 0), **kwargs)
 
         # With the MULTILINE flag, the text control always has a vertical
         # scrollbar, which looks stupid. I don't know how to get rid of it.
@@ -236,7 +236,7 @@ class IntEditor(BaseCellTextEditor):
 
     def GetValue(self):
         "Get the value from the editor"
-        s = wx.TextCtrl.GetValue(self).strip()
+        s = super(IntEditor, self).GetValue().strip()
         try:
             return int(s)
         except ValueError:
@@ -246,7 +246,7 @@ class IntEditor(BaseCellTextEditor):
         "Put a new value into the editor"
         if isinstance(value, int):
             value = repr(value)
-        wx.TextCtrl.SetValue(self, value)
+        super(IntEditor, self).SetValue(value)
 
 #----------------------------------------------------------------------------
 
@@ -257,7 +257,7 @@ class LongEditor(BaseCellTextEditor):
 
     def GetValue(self):
         "Get the value from the editor"
-        s = wx.TextCtrl.GetValue(self).strip()
+        s = super(LongEditor, self).GetValue().strip()
         try:
             return long(s)
         except ValueError:
@@ -265,9 +265,9 @@ class LongEditor(BaseCellTextEditor):
 
     def SetValue(self, value):
         "Put a new value into the editor"
-        if isinstance(value, long):
+        if isinstance(value, (long, int, float)):
             value = repr(value)
-        wx.TextCtrl.SetValue(self, value)
+        super(LongEditor, self).SetValue(value)
 
 #----------------------------------------------------------------------------
 
@@ -281,7 +281,7 @@ class FloatEditor(BaseCellTextEditor):
 
     def GetValue(self):
         "Get the value from the editor"
-        s = wx.TextCtrl.GetValue(self).strip()
+        s = super(FloatEditor, self).GetValue().strip()
         try:
             return float(s)
         except ValueError:
@@ -289,9 +289,9 @@ class FloatEditor(BaseCellTextEditor):
 
     def SetValue(self, value):
         "Put a new value into the editor"
-        if isinstance(value, float):
+        if isinstance(value, (float, int)):
             value = repr(value)
-        wx.TextCtrl.SetValue(self, value)
+        super(FloatEditor, self).SetValue(value)
 
 #----------------------------------------------------------------------------
 
@@ -386,11 +386,11 @@ class DateTimeEditor(BaseCellTextEditor):
         "Put a new value into the editor"
         if isinstance(value, datetime.datetime):
             value = value.strftime(self.formatString)
-        wx.TextCtrl.SetValue(self, value)
+        super(DateTimeEditor, self).SetValue(value)
 
     def GetValue(self):
         "Get the value from the editor"
-        s = wx.TextCtrl.GetValue(self).strip()
+        s = super(DateTimeEditor, self).GetValue().strip()
         return self._ParseDateTime(s)
 
     def _ParseDateTime(self, s):
@@ -520,11 +520,11 @@ class TimeEditor(BaseCellTextEditor):
         value = value or ""
         if isinstance(value, datetime.time):
             value = value.strftime(self.formatString)
-        wx.TextCtrl.SetValue(self, value)
+        super(TimeEditor, self).SetValue(value)
 
     def GetValue(self):
         "Get the value from the editor"
-        s = wx.TextCtrl.GetValue(self).strip()
+        s = super(TimeEditor, self).GetValue().strip()
         fmts = self.STD_TIME_FORMATS[:]
         if self.formatString not in fmts:
             fmts.insert(0, self.formatString)

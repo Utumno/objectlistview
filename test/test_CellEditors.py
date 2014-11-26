@@ -3,7 +3,8 @@ import unittest
 import wx
 from datetime import datetime, date, time
 
-from ObjectListView.CellEditor import BooleanEditor, DateEditor, DateTimeEditor, TimeEditor
+from ObjectListView.CellEditor import BooleanEditor, DateEditor, DateTimeEditor,\
+     TimeEditor, IntEditor, FloatEditor, LongEditor
 
 #----------------------------------------------------------------------------
 
@@ -16,6 +17,42 @@ class TestBooleanEditor(wtc.WidgetTestCase):
         self.assertEqual(self.editor.GetValue(), False)
         self.editor.SetValue(True)
         self.assertEqual(self.editor.GetValue(), True)
+
+#----------------------------------------------------------------------------
+
+
+class TestIntEditor(wtc.WidgetTestCase):
+
+    def testBasics(self):
+        self.editor = IntEditor(self.frame, 0)
+        self.editor.SetValue(0)
+        self.assertEqual(self.editor.GetValue(), 0)
+        self.editor.SetValue(2)
+        self.assertEqual(self.editor.GetValue(), 2)
+
+#----------------------------------------------------------------------------
+
+
+class TestFloatEditor(wtc.WidgetTestCase):
+
+    def testBasics(self):
+        self.editor = FloatEditor(self.frame, 0)
+        self.editor.SetValue(0)
+        self.assertEqual(self.editor.GetValue(), 0)
+        self.editor.SetValue(2.0)
+        self.assertEqual(self.editor.GetValue(), 2.0)
+
+#----------------------------------------------------------------------------
+
+
+class TestLongEditor(wtc.WidgetTestCase):
+
+    def testBasics(self):
+        self.editor = LongEditor(self.frame, 0)
+        self.editor.SetValue(0)
+        self.assertEqual(self.editor.GetValue(), 0)
+        self.editor.SetValue(51924361L)
+        self.assertEqual(self.editor.GetValue(), 51924361L)
 
 #----------------------------------------------------------------------------
 
