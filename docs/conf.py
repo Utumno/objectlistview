@@ -26,10 +26,24 @@ if on_rtd:
 	class Mock(MagicMock):
 		@classmethod
 		def __getattr__(cls, name):
-				return Mock()
+			return Mock()
 
-	MOCK_MODULES = ['wx', ]
+	MOCK_MODULES = ['wx', 'wx.lib', 'wx.lib.wordwrap']
 	sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
+	import wx
+	wx.TextCtrl = object
+	wx.Choice = object
+	wx.PyCommandEvent = object
+	wx.ListCtrl = object
+	wx.PlatformInfo = []
+
+	import wx.lib
+	def mockWrap():
+		pass
+	wx.lib.wordwrap.wordwrap = mockWrap
+
+
 
 
 sys.path.append(os.path.abspath(".."))
