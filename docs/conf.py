@@ -11,7 +11,26 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import sys, os
+import sys
+import os
+
+# following is needed as RTD is not supporting e.g. wxPython to be installed
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if on_rtd:
+	import sys
+	if sys.version_info[0] == 2:
+		from mock import Mock as MagicMock
+	else:
+		from unittest.mock import MagicMock
+
+	class Mock(MagicMock):
+		@classmethod
+		def __getattr__(cls, name):
+				return Mock()
+
+	MOCK_MODULES = ['wx', ]
+	sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
 
 sys.path.append(os.path.abspath(".."))
 
