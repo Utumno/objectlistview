@@ -43,7 +43,11 @@ Seriously, after using an ObjectListView, you will never go back to using a plai
 OK, I'm interested. What do I do next?
 --------------------------------------
 
-You can download a |download|_, select one of the version tags or `tip`
+You can install it using pip::
+
+   pip install objectlistview
+
+or you can download a source package from |download|_, select one of the version tags or `tip`
 for the current development version, if you are not a developer it is recommended that you download
 the most recent version.  To install it to your installed Python version run `setup.py install` from
 the base folder.

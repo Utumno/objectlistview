@@ -1,5 +1,5 @@
 .. |download| replace::
-   source package of the ObjectListView from BitBucket
+   BitBucket
 .. _download: https://bitbucket.org/wbruhin/objectlistview/downloads
 .. |StackExchange| replace::
    StackExchange with a tag of 'objectlistview'
