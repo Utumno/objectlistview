@@ -1,13 +1,16 @@
 import sys
 
 NAME = "ObjectListView"
+# update following in conf.py, __init__.py and here
 VERSION = "1.3"
-URL = "http://objectlistview.sourceforge.net/python"
-DOWNLOAD_URL = "http://objectlistview.sourceforge.net/samples/ObjectListView-1.2.zip"
+URL = "https://bitbucket.org/wbruhin/objectlistview"
+DOWNLOAD_URL = "https://bitbucket.org/wbruhin/objectlistview/downloads"
 LICENSE = "wxWindows"
 AUTHOR = "Phillip Piper"
 AUTHOR_EMAIL = "phillip.piper@gmail.com"
-YEAR = 2008
+MAINTAINER = "Werner F Bruhin"
+MAINTAINER_EMAIL = "wernerfbd@gmx.ch"
+YEAR = 2014
 DESCRIPTION = "An ObjectListView is a wrapper around the wx.ListCtrl that makes the list control easier to use"
 
 LONG_DESCRIPTION = \
@@ -41,7 +44,7 @@ Seriously, after using an ObjectListView, you will never go back to using a plai
 Dependancies
 ============
 
-  * Python 2.4+
+  * Python 2.7+
   * wxPython 2.8+
 
 """
@@ -51,13 +54,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: User Interfaces',
 ]
 
-if 'bdist_egg' in sys.argv:
-    try:
-        from setuptools import setup
-    except ImportError:
-        print("To build an egg setuptools must be installed")
-else:
-    from distutils.core import setup
+from setuptools import setup
 
 setup(
     name = NAME,
@@ -66,8 +63,9 @@ setup(
     long_description = LONG_DESCRIPTION,
     author = AUTHOR,
     author_email = AUTHOR_EMAIL,
-    maintainer = AUTHOR,
-    maintainer_email = AUTHOR_EMAIL,
+    # if following is set then author is overridden
+    #maintainer = MAINTAINER,
+    #maintainer_email = MAINTAINER_EMAIL,
     url = URL,
     download_url = DOWNLOAD_URL,
     license = LICENSE,
