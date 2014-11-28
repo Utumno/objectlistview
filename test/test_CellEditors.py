@@ -1,5 +1,8 @@
 import wtc
 import unittest
+
+import sys
+
 import wx
 from datetime import datetime, date, time
 
@@ -51,8 +54,9 @@ class TestLongEditor(wtc.WidgetTestCase):
         self.editor = LongEditor(self.frame, 0)
         self.editor.SetValue(0)
         self.assertEqual(self.editor.GetValue(), 0)
-        self.editor.SetValue(51924361L)
-        self.assertEqual(self.editor.GetValue(), 51924361L)
+        self.editor.SetValue(sys.maxsize+1)
+        self.assertEqual(self.editor.GetValue(), sys.maxsize+1)
+
 
 #----------------------------------------------------------------------------
 
