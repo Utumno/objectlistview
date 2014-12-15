@@ -51,7 +51,6 @@ Mental gear shift
 -----------------
 
 .. attention:: This is important. You need to understand this.
-    ignore
 
 Before trying to use an ObjectListView, you should understand that it is different to a
 normal ListCtrl. A normal ListCtrl is essentially passive: it sits there, and you poke and
@@ -83,7 +82,6 @@ Unlearn you must
 ----------------
 
 .. attention:: This section is for those who are familiar with using a ListCtrl.
-    ignore
 
 For those of you who have struggled with a ListCtrl before, you must unlearn. An
 ObjectListView is not a drop in replacement for a ListCtrl. If you have an existing
