@@ -3,6 +3,7 @@
 TO DO
 =====
 
+- document release steps for PyPi
 - images in the column headers
 - hidden columns, selectable on right click on header
 - copy selection to clipboard (text and HTML format)
