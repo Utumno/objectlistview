@@ -16,6 +16,15 @@ import os
 
 # following is needed as RTD is not supporting e.g. wxPython to be installed
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+# only import and set the theme if we're building docs locally
+if not on_rtd:
+	import sphinx_rtd_theme
+	html_theme = 'sphinx_rtd_theme'
+	html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+	print(html_theme_path)
+
+# do some mocking when on RTD
 if on_rtd:
 	import sys
 	if sys.version_info[0] == 2:
@@ -115,7 +124,7 @@ pygments_style = 'sphinx'
 # The style sheet to use for HTML and HTML Help pages. A file of that name
 # must exist either in Sphinx' static/ path, or in one of the custom paths
 # given in html_static_path.
-html_style = 'master.css'
+#html_style = 'master.css'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -175,7 +184,7 @@ htmlhelp_basename = 'ObjectListViewDoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'ObjectListView.tex', 'ObjectListView Documentation', 'Phillip Piper', 'manual'),
+    ('index', 'ObjectListView.tex', 'ObjectListView Documentation', 'Phillip Piper', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
