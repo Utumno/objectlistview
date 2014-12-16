@@ -26,8 +26,8 @@ if not on_rtd:
 
 # do some mocking when on RTD
 if on_rtd:
-	import six
-	if six.PY2:
+	import sys
+	if sys.version_info[0] == 2:
 		from mock import Mock as MagicMock
 	else:
 		from unittest.mock import MagicMock
