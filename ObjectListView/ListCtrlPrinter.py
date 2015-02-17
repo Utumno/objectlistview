@@ -563,7 +563,7 @@ class ListCtrlPrintout(wx.Printout):
         """
         self.preview = self.GetPrintPreview()
 
-        if not self.preview.Ok():
+        if not self.preview.IsOk():
             return False
 
         pfrm = wx.PreviewFrame(self.preview, parent, title)
