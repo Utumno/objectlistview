@@ -1,8 +1,8 @@
 import sys
 
 NAME = "ObjectListView"
-# update following in conf.py, __init__.py and here
-VERSION = "1.3.1"
+# update following in __init__.py and here
+VERSION = "1.3.2"
 URL = "https://bitbucket.org/wbruhin/objectlistview"
 DOWNLOAD_URL = "https://bitbucket.org/wbruhin/objectlistview/downloads"
 LICENSE = "wxWindows"
