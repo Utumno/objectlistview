@@ -2816,7 +2816,10 @@ class ImageDecoration(Decoration):
 
         self.bitmap = image
         if isinstance(image, wx.Image):
-            self.bitmap = wx.BitmapFromImage(image)
+            if 'phoenix' in wx.PlatformInfo:
+                self.bitmap = wx.Bitmap(image)
+            else:
+                self.bitmap = wx.BitmapFromImage(image)
 
     def DrawDecoration(self, dc, bounds, block):
         """
