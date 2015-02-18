@@ -61,6 +61,7 @@ class MyFrame(wx.Frame):
 		self.lv.SetSortColumn(self.lv.columns[2])
 		self.lv.SetObjects(ExampleModel.GetTracks())
 
+		# use CallLater so preview shows up after OLV
 		wx.CallLater(50, self.run)
 
 	def run(self):
@@ -68,10 +69,9 @@ class MyFrame(wx.Frame):
 		    self.lv,
 		    "Playing with ListCtrl Printing")
 		printer.ReportFormat = olv.ReportFormat.Normal()
-		printer.ReportFormat.WatermarkFormat(over=True)
+		# over=False means Watermark is transparent
+		printer.ReportFormat.WatermarkFormat(over=False)
 		printer.ReportFormat.IsColumnHeadingsOnEachPage = True
-
-		#printer.ReportFormat.Page.Add(ImageDecoration(ExampleImages.getGroup32Bitmap(), wx.RIGHT, wx.BOTTOM))
 
 		# printer.PageHeader("%(listTitle)s") # nice idea but not possible
 		# at the moment
@@ -80,6 +80,10 @@ class MyFrame(wx.Frame):
 		    "Bright Ideas Software",
 		    "%(date)s",
 		    "%(currentPage)d of %(totalPages)d")
+
+		printer.ReportFormat.Page.Add(olv.ImageDecoration(
+			ExampleImages.Group32.GetImage(), wx.CENTER, wx.BOTTOM))
+
 		printer.Watermark = "Sloth!"
 
 		# printer.PageSetup()
@@ -87,7 +91,6 @@ class MyFrame(wx.Frame):
 
 
 app = wx.App(0)
-#wx.InitAllImageHandlers()
 frame_1 = MyFrame(None, -1, "")
 app.SetTopWindow(frame_1)
 frame_1.Show()
