@@ -2808,11 +2808,17 @@ class ImageDecoration(Decoration):
             verticalAlign=wx.CENTER,
             over=True):
         """
-        image must be either an wx.Image or a wx.Bitmap
+        Default constructor
+        
+        :param `image`: must be :class:`wx.Image` or :class:`wx.Bitmap`
+        :param `horizontalAlign`: alignment flag
+        :param `verticalAlign`: alignment flag
+        :param boolean `over`: True to overprint
+        
         """
         self.horizontalAlign = horizontalAlign
         self.verticalAlign = verticalAlign
-        self.over = True
+        self.over = over
 
         self.bitmap = image
         if isinstance(image, wx.Image):
@@ -2820,6 +2826,12 @@ class ImageDecoration(Decoration):
                 self.bitmap = wx.Bitmap(image)
             else:
                 self.bitmap = wx.BitmapFromImage(image)
+
+    def IsDrawOver(self):
+        """
+        Should this decoration be drawn over the rest of page?
+        """
+        return self.over
 
     def DrawDecoration(self, dc, bounds, block):
         """
@@ -2842,7 +2854,12 @@ class ImageDecoration(Decoration):
         else:
             y = RectUtils.CenterY(bounds) - self.bitmap.Height / 2
 
-        dc.DrawBitmap(self.bitmap, x, y, True)
+        # as suggested by G. Papadopoulos on ovl discussion list
+        mdc = wx.MemoryDC()
+        mdc.SelectObject(self.bitmap)
+        dc.Blit(x, y, self.bitmap.GetWidth(), self.bitmap.GetHeight(),
+                mdc, xsrc=-1, ysrc=-1, useMask=True)
+        mdc.SelectObject(wx.NullBitmap)         
 
 
 #----------------------------------------------------------------------------
