@@ -750,7 +750,8 @@ class ReportFormat(object):
     @staticmethod
     def Minimal(headerFontName="Arial", rowFontName="Times New Roman"):
         """
-        Return a minimal format for a report
+        Return a minimal format for a report, use it as is or base your
+        own format on it.
         """
         fmt = ReportFormat()
         fmt.IsShrinkToFit = False
@@ -806,7 +807,8 @@ class ReportFormat(object):
     @staticmethod
     def Normal(headerFontName="Gill Sans", rowFontName="Times New Roman"):
         """
-        Return a reasonable default format for a report
+        Return a reasonable default format for a report, use it as is or base
+        your own format on it.
         """
         fmt = ReportFormat()
         fmt.IsShrinkToFit = True
@@ -865,7 +867,8 @@ class ReportFormat(object):
     @staticmethod
     def TooMuch(headerFontName="Chiller", rowFontName="Gill Sans"):
         """
-        Return a reasonable default format for a report
+        Return a colorfull default format for a report, use it as is or base
+        your own format on it.
         """
         fmt = ReportFormat()
         fmt.IsShrinkToFit = False

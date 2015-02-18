@@ -8,6 +8,8 @@ Major Classes Reference
 * :ref:`columndefn-class`
 * :ref:`grouplistview-class`
 * :ref:`batchedupdate-class`
+* :ref:`listctrlprinter-class`
+* :ref:`reportformat-class`
 
 .. _objectlistview-class:
 
@@ -52,3 +54,25 @@ BatchedUpdate
 -------------
 
 .. autoclass:: ObjectListView.BatchedUpdate
+
+----------------------------------------------
+
+.. _listctrlprinter-class:
+
+ListCtrlPrinter
+---------------
+
+.. autoclass:: ObjectListView.ListCtrlPrinter
+   :members:
+
+   .. automethod:: ObjectListView.ListCtrlPrinter.__init__
+
+.. _reportformat-class:
+
+ReportFormat
+---------------
+
+.. autoclass:: ObjectListView.ReportFormat
+   :members:
+
+   .. automethod:: ObjectListView.ReportFormat.__init__
