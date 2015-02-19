@@ -2857,12 +2857,16 @@ class ImageDecoration(Decoration):
         else:
             y = RectUtils.CenterY(bounds) - self.bitmap.Height / 2
 
-        # as suggested by G. Papadopoulos on ovl discussion list
-        mdc = wx.MemoryDC()
-        mdc.SelectObject(self.bitmap)
-        dc.Blit(x, y, self.bitmap.GetWidth(), self.bitmap.GetHeight(),
-                mdc, xsrc=-1, ysrc=-1, useMask=True)
-        mdc.SelectObject(wx.NullBitmap)         
+        if isinstance(dc, (wx.PrinterDC, wx.PostScriptDC)):
+            # as suggested by G. Papadopoulos on ovl discussion list
+            # nicer handling of e.g. .png images, but doesn't work on preview
+            mdc = wx.MemoryDC()
+            mdc.SelectObject(self.bitmap)
+            dc.Blit(x, y, self.bitmap.GetWidth(), self.bitmap.GetHeight(),
+                    mdc, xsrc=0, ysrc=0, useMask=True)
+            mdc.SelectObject(wx.NullBitmap)         
+        else:
+            dc.DrawBitmap(self.bitmap, x, y, True)
 
 
 #----------------------------------------------------------------------------
