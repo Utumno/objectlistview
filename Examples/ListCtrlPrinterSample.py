@@ -81,8 +81,16 @@ class MyFrame(wx.Frame):
 		    "%(date)s",
 		    "%(currentPage)d of %(totalPages)d")
 
+		#import os
+		#iName = "images/music32.png"
+		#os.path.exists(iName)
+		#img = wx.Image(iName, type=wx.BITMAP_TYPE_PNG)		
+		#printer.ReportFormat.Page.Add(olv.ImageDecoration(
+			#img, wx.CENTER, wx.CENTER))
+		#printer.ReportFormat.Page.Add(olv.ImageDecoration(
+				#ExampleImages.Group32.GetImage(), wx.CENTER, wx.CENTER))
 		printer.ReportFormat.Page.Add(olv.ImageDecoration(
-			ExampleImages.Group32.GetImage(), wx.CENTER, wx.BOTTOM))
+				ExampleImages.Music32.GetImage(), wx.CENTER, wx.CENTER))
 
 		printer.Watermark = "Sloth!"
 
