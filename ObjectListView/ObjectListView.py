@@ -3749,6 +3749,9 @@ class ColumnDefn(object):
              datetime.time)):
             return value.strftime(self.stringConverter)
 
+        if converter and isinstance(value, wx.DateTime):
+            return value.Format(self.stringConverter)
+
         # By default, None is changed to an empty string.
         if not converter and not value:
             return ""
