@@ -4,4 +4,3 @@ build/*
 docs-build/
 dist/
 ObjectListView.egg-info/
-.idea/
