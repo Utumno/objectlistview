@@ -195,17 +195,32 @@ class TestStringConverter(unittest.TestCase):
         col5 = ColumnDefn(
             valueGetter="timeCreated",
             stringConverter="%H:%M:%S")
+        col6 = ColumnDefn(
+            valueGetter="wx datetime",
+            stringConverter="%Y-%m-%d %H:%M:%S")
+        col7 = ColumnDefn(
+            valueGetter="wx date",
+            stringConverter="%Y-%m-%d")
+        col8 = ColumnDefn(
+            valueGetter="wx time",
+            stringConverter="%H:%M:%S")
 
         data = {"aspectToGet": 15}
         data["dateTimeCreated"] = datetime(1965, 10, 29, 12, 13, 14)
         data["dateCreated"] = date(1965, 10, 29)
         data["timeCreated"] = time(12, 13, 14)
+        data["wx datetime"] = wx.DateTime().Set(29, 9, 1965, 12, 13, 14)
+        data["wx date"] = wx.DateTime().Set(29, 9, 1965)
+        data["wx time"] = wx.DateTime().SetHMS(12, 13, 14)
 
         self.assertEqual(col1.GetStringValue(data), "15")
         self.assertEqual(col2.GetStringValue(data), "0F")
         self.assertEqual(col3.GetStringValue(data), "1965-10-29 12:13:14")
         self.assertEqual(col4.GetStringValue(data), "1965-10-29")
         self.assertEqual(col5.GetStringValue(data), "12:13:14")
+        self.assertEqual(col6.GetStringValue(data), "1965-10-29 12:13:14")
+        self.assertEqual(col7.GetStringValue(data), "1965-10-29")
+        self.assertEqual(col8.GetStringValue(data), "12:13:14")
 
 
 class TestValueSettingWithSetter(unittest.TestCase):
