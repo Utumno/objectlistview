@@ -564,7 +564,7 @@ class ObjectListView(wx.ListCtrl):
         The objects will appear at their sorted locations, or at the end of the list if
         the list is unsorted
         """
-        if len(self.innerList) == 0:
+        if len(self.innerList) == 0 and len(self.modelObjects) == 0:
             return self.SetObjects(modelObjects)
 
         try:
