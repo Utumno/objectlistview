@@ -46,7 +46,7 @@ class Track:
     """
     def __init__(self, **kwargs):
         self.isChecked = False
-        self.attributeNames = kwargs.keys()
+        self.attributeNames = list(kwargs.keys())
         self.attributeNames.extend(["trackColour", "font", "isChecked"])
         self.__dict__.update(kwargs)
 
