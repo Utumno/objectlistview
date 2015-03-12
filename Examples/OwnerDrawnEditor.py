@@ -23,7 +23,12 @@ the colour's name on a background of that colour.
 """
 
 import wx
-import wx.combo
+if 'phoenix' in wx.PlatformInfo:
+    from wx.adv import OwnerDrawnComboBox
+    cbFlags = wx.adv
+else:
+    from wx.combo import OwnerDrawnComboBox
+    cbFlags = wx.combo
 import wx.lib.colourdb
 
 class Bucket:
@@ -35,7 +40,7 @@ class Bucket:
 
 #======================================================================
 
-class FontFaceComboBox(wx.combo.OwnerDrawnComboBox):
+class FontFaceComboBox(OwnerDrawnComboBox):
     """
     FontFaceComboBox allows the user to choose a font face.
 
@@ -87,13 +92,16 @@ class FontFaceComboBox(wx.combo.OwnerDrawnComboBox):
 
         kwargs['style'] = kwargs.get("style", 0) | wx.CB_READONLY
         kwargs["choices"] = [x.name for x in self.fontInfo]
-        wx.combo.OwnerDrawnComboBox.__init__(self, *args, **kwargs)
+        OwnerDrawnComboBox.__init__(self, *args, **kwargs)
 
         # Fill in some other information that is better to precalculate.
         # Measuring text has to be done after the control is initialized
         measuringDC = wx.ClientDC(self)
         for x in self.fontInfo:
-            x.font = wx.FFont(self.fontHeight, wx.FONTFAMILY_DEFAULT, face=x.name)
+            if 'phoenix' in wx.PlatformInfo:
+                x.font = wx.FFont(self.fontHeight, wx.FONTFAMILY_DEFAULT, faceName=x.name)
+            else:
+                x.font = wx.FFont(self.fontHeight, wx.FONTFAMILY_DEFAULT, face=x.name)
             x.extent = measuringDC.GetFullTextExtent(x.display, font=x.font)
 
     def SetValue(self, value):
@@ -103,16 +111,19 @@ class FontFaceComboBox(wx.combo.OwnerDrawnComboBox):
         if isinstance(value, wx.Font):
             value = value.GetFaceName()
 
-        wx.combo.OwnerDrawnComboBox.SetValue(self, value or "")
+        OwnerDrawnComboBox.SetValue(self, value or "")
 
     def OnDrawItem(self, dc, rect, item, flags):
         if item == wx.NOT_FOUND:
             return
 
         bucket = self.fontInfo[item]
-        if (flags & wx.combo.ODCB_PAINTING_CONTROL) == wx.combo.ODCB_PAINTING_CONTROL:
+        if (flags & cbFlags.ODCB_PAINTING_CONTROL) == cbFlags.ODCB_PAINTING_CONTROL:
             fontSize = min(self.fontHeight, max(10, self.GetSize().GetHeight() - 9))
-            dc.SetFont(wx.FFont(fontSize, wx.FONTFAMILY_DEFAULT, face=bucket.name))
+            if 'phoenix' in wx.PlatformInfo:
+                dc.SetFont(wx.FFont(fontSize, wx.FONTFAMILY_DEFAULT, faceName=bucket.name))
+            else:
+                dc.SetFont(wx.FFont(fontSize, wx.FONTFAMILY_DEFAULT, face=bucket.name))
             display = bucket.name
         else:
             dc.SetFont(bucket.font)
@@ -122,8 +133,8 @@ class FontFaceComboBox(wx.combo.OwnerDrawnComboBox):
     def OnDrawBackground(self, dc, rect, item, flags):
         # If the item is selected, or we are painting the combo control itself, then use
         # the default rendering.
-        if flags & (wx.combo.ODCB_PAINTING_CONTROL | wx.combo.ODCB_PAINTING_SELECTED):
-            wx.combo.OwnerDrawnComboBox.OnDrawBackground(self, dc, rect, item, flags)
+        if flags & (cbFlags.ODCB_PAINTING_CONTROL | cbFlags.ODCB_PAINTING_SELECTED):
+            OwnerDrawnComboBox.OnDrawBackground(self, dc, rect, item, flags)
             return
 
         # Otherwise, draw every other background with different colour.
@@ -133,7 +144,10 @@ class FontFaceComboBox(wx.combo.OwnerDrawnComboBox):
             backColour = self.evenRowBackground
         dc.SetBrush(wx.Brush(backColour))
         dc.SetPen(wx.Pen(backColour))
-        dc.DrawRectangleRect(rect)
+        if 'phoenix' in wx.PlatformInfo:
+            dc.DrawRectangle(rect)
+        else:
+            dc.DrawRectangleRect(rect)
 
     def OnMeasureItem(self, item):
         (width, height, descent, externalLeading) = self.fontInfo[item].extent
@@ -146,7 +160,7 @@ class FontFaceComboBox(wx.combo.OwnerDrawnComboBox):
 
 #======================================================================
 
-class ColourComboBox(wx.combo.OwnerDrawnComboBox):
+class ColourComboBox(OwnerDrawnComboBox):
     """
     ColourComboBox allows the user to choose a colour.
 
@@ -178,15 +192,13 @@ class ColourComboBox(wx.combo.OwnerDrawnComboBox):
 
         kwargs['style'] = kwargs.get('style', 0) | wx.CB_READONLY
         kwargs['choices'] = [x.name for x in self.colourList]
-        wx.combo.OwnerDrawnComboBox.__init__(self, *args, **kwargs)
-
-    GetStringValue = wx.combo.OwnerDrawnComboBox.GetValue
+        OwnerDrawnComboBox.__init__(self, *args, **kwargs)
 
     def GetValue(self):
         """
         Return a wx.Colour that is selected
         """
-        strValue = self.GetStringValue()
+        strValue = super(ColourComboBox, self).GetValue()
         for x in self.colourList:
             if x.name == strValue:
                 return x.colour
@@ -202,7 +214,7 @@ class ColourComboBox(wx.combo.OwnerDrawnComboBox):
                     value = x.name
                     break
 
-        wx.combo.OwnerDrawnComboBox.SetValue(self, value or "")
+        super(ColourComboBox, self).SetValue(value or "")
 
     def OnDrawItem(self, dc, rect, item, flags):
         if item == wx.NOT_FOUND:
@@ -210,8 +222,11 @@ class ColourComboBox(wx.combo.OwnerDrawnComboBox):
 
         bucket = self.colourList[item]
 
-        if flags & wx.combo.ODCB_PAINTING_SELECTED:
-            dc.DrawRectangleRect(rect)
+        if flags & cbFlags.ODCB_PAINTING_SELECTED:
+            if 'phoenix' in wx.PlatformInfo:
+                dc.DrawRectangle(rect)
+            else:
+                dc.DrawRectangleRect(rect)
         else:
             if bucket.intensity > (255+255+255)*2/3:
                 dc.SetTextForeground(wx.BLACK)
@@ -223,13 +238,16 @@ class ColourComboBox(wx.combo.OwnerDrawnComboBox):
     def OnDrawBackground(self, dc, rect, item, flags):
         # If the item is selected, then use the default rendering.
         # Otherwise, draw each row with its own colour as the background
-        if flags & wx.combo.ODCB_PAINTING_SELECTED:
-            wx.combo.OwnerDrawnComboBox.OnDrawBackground(self, dc, rect, item, flags)
+        if flags & cbFlags.ODCB_PAINTING_SELECTED:
+            OwnerDrawnComboBox.OnDrawBackground(self, dc, rect, item, flags)
         else:
             backColour = self.colourList[item].colour
             dc.SetBrush(wx.Brush(backColour))
             dc.SetPen(wx.Pen(backColour))
-            dc.DrawRectangleRect(rect)
+            if 'phoenix' in wx.PlatformInfo:
+                dc.DrawRectangle(rect)
+            else:
+                dc.DrawRectangleRect(rect)
 
     def OnMeasureItem(self, item):
         return self.popupRowHeight
@@ -271,22 +289,21 @@ if __name__ == '__main__':
             wx.CallAfter(self.run)
 
         def HandleFontComboBox(self, evt):
-            print self.cbFont.GetValue()
+            print(self.cbFont.GetValue())
 
         def HandleFontComboBox2(self, evt):
-            print self.cbFont2.GetValue()
+            print(self.cbFont2.GetValue())
 
         def HandleColourComboBox(self, evt):
-            print self.cbColour.GetValue()
+            print(self.cbColour.GetValue())
 
         def HandleColourComboBox2(self, evt):
-            print self.cbColour2.GetValue()
+            print(self.cbColour2.GetValue())
 
         def run(self):
             self.cbColour.SetValue("CORNSILK")
 
-    app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
+    app = wx.App(0)
     frame_1 = MyFrame(None, -1, "")
     app.SetTopWindow(frame_1)
     frame_1.Show()
