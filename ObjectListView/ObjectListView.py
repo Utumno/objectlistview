@@ -812,9 +812,9 @@ class ObjectListView(wx.ListCtrl):
             # Insert all the rows
             item = wx.ListItem()
             item.SetColumn(0)
-            for (i, x) in enumerate(self.innerList):
+            for (index, model) in enumerate(self.innerList):
                 item.Clear()
-                self._InsertUpdateItem(item, i, x, True)
+                self._InsertUpdateItem(item, index, model, True)
 
             # Auto-resize once all the data has been added
             self.AutoSizeColumns()
@@ -2875,16 +2875,12 @@ class GroupListView(FastObjectListView):
         # Insert the column used for expansion and contraction (if one isn't
         # already there)
         if self.showGroups and self.useExpansionColumn and len(newColumns) > 0:
-            if not isinstance(
-                    newColumns[0],
-                    ColumnDefn) or not newColumns[0].isInternal:
-                newColumns.insert(
-                    0,
-                    ColumnDefn(
-                        "",
+            if not isinstance(newColumns[0], ColumnDefn) or not newColumns[0].isInternal:
+                newColumns.insert(0, ColumnDefn("",
                         fixedWidth=24,
                         isEditable=False))
                 newColumns[0].isInternal = True
+
         FastObjectListView.SetColumns(self, newColumns, repopulate)
 
     def SetGroups(self, groups):
