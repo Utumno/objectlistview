@@ -544,7 +544,7 @@ class ObjectListView(wx.ListCtrl):
 
     def AddImages(self, smallImage=None, normalImage=None):
         """
-        Add the given images to the list of available images. Return the index of the image.
+        Add the given images (:class:wx.Bitmap) to the list of available images. Return the index of the image.
         """
         return self.AddNamedImages(None, smallImage, normalImage)
 
@@ -583,7 +583,7 @@ class ObjectListView(wx.ListCtrl):
 
     def AddNamedImages(self, name, smallImage=None, normalImage=None):
         """
-        Add the given images to the list of available images. Return the index of the image.
+        Add the given images (:class:wx.Bitmap) to the list of available images. Return the index of the image.
 
         If a name is given, that name can later be used to refer to the images rather
         than having to use the returned index.
@@ -812,9 +812,9 @@ class ObjectListView(wx.ListCtrl):
             # Insert all the rows
             item = wx.ListItem()
             item.SetColumn(0)
-            for (i, x) in enumerate(self.innerList):
+            for (index, model) in enumerate(self.innerList):
                 item.Clear()
-                self._InsertUpdateItem(item, i, x, True)
+                self._InsertUpdateItem(item, index, model, True)
 
             # Auto-resize once all the data has been added
             self.AutoSizeColumns()
@@ -2875,16 +2875,12 @@ class GroupListView(FastObjectListView):
         # Insert the column used for expansion and contraction (if one isn't
         # already there)
         if self.showGroups and self.useExpansionColumn and len(newColumns) > 0:
-            if not isinstance(
-                    newColumns[0],
-                    ColumnDefn) or not newColumns[0].isInternal:
-                newColumns.insert(
-                    0,
-                    ColumnDefn(
-                        "",
+            if not isinstance(newColumns[0], ColumnDefn) or not newColumns[0].isInternal:
+                newColumns.insert(0, ColumnDefn("",
                         fixedWidth=24,
                         isEditable=False))
                 newColumns[0].isInternal = True
+
         FastObjectListView.SetColumns(self, newColumns, repopulate)
 
     def SetGroups(self, groups):
@@ -4014,7 +4010,7 @@ class ColumnDefn(object):
 class NamedImageList(object):
 
     """
-    A named image list is an Adaptor that gives a normal image list
+    A named image list is an Adaptor that gives a normal image list (:class:wx.ImageList)
     the ability to reference images by name, rather than just index
     """
 
@@ -4037,7 +4033,7 @@ class NamedImageList(object):
 
     def AddNamedImage(self, name, image):
         """
-        Add the given image to our list, and remember its name.
+        Add the given image (:class:wx.Bitmap) to our list, and remember its name.
         Returns the images index.
         """
         imageIndex = self.imageList.Add(image)
