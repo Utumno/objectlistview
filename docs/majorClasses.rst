@@ -10,6 +10,7 @@ Major Classes Reference
 * :ref:`batchedupdate-class`
 * :ref:`listctrlprinter-class`
 * :ref:`reportformat-class`
+* :ref:`namedimagelist-class`
 
 .. _objectlistview-class:
 
@@ -70,9 +71,19 @@ ListCtrlPrinter
 .. _reportformat-class:
 
 ReportFormat
----------------
+------------
 
 .. autoclass:: ObjectListView.ReportFormat
    :members:
 
    .. automethod:: ObjectListView.ReportFormat.__init__
+
+.. _namedimagelist-class:
+
+NamedImageList
+--------------
+
+.. autoclass:: ObjectListView.NamedImageList
+   :members:
+
+   .. automethod:: ObjectListView.NamedImageList.__init__
