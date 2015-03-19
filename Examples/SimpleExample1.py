@@ -7,6 +7,7 @@ import wx
 import sys
 sys.path.append("..")
 
+import ObjectListView as OLV
 from ObjectListView import ObjectListView, ColumnDefn
 
 import ExampleModel
@@ -47,9 +48,8 @@ class MyFrame(wx.Frame):
         self.myOlv.SetObjects(self.songs)
 
 if __name__ == '__main__':
-    app = wx.PySimpleApp(1)
-    wx.InitAllImageHandlers()
-    frame_1 = MyFrame(None, -1, "ObjectListView Simple Example1")
-    app.SetTopWindow(frame_1)
-    frame_1.Show()
+    print('Using {} ({}) from {}.'.format(OLV.__name__, OLV.__version__, OLV.__path__))
+    app = wx.App()
+    frame = MyFrame(None, -1, "ObjectListView Simple Example1")
+    frame.Show()
     app.MainLoop()
