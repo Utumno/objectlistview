@@ -8,6 +8,7 @@ import wx
 import sys
 sys.path.append("..")
 
+import ObjectListView as OLV
 from ObjectListView import ObjectListView, ColumnDefn
 
 import ExampleModel
@@ -41,9 +42,9 @@ class MyFrame(wx.Frame):
         self.Layout()
 
     def InitObjectListView(self):
-        groupImage = self.myOlv.AddImages(ExampleImages.getGroup16Bitmap(), ExampleImages.getGroup32Bitmap())
-        userImage = self.myOlv.AddImages(ExampleImages.getUser16Bitmap(), ExampleImages.getUser32Bitmap())
-        musicImage = self.myOlv.AddImages(ExampleImages.getMusic16Bitmap(), ExampleImages.getMusic32Bitmap())
+        groupImage = self.myOlv.AddImages(ExampleImages.Group16.GetBitmap(), ExampleImages.Group32.GetBitmap())
+        userImage = self.myOlv.AddImages(ExampleImages.User16.GetBitmap(), ExampleImages.User32.GetBitmap())
+        musicImage = self.myOlv.AddImages(ExampleImages.Music16.GetBitmap(), ExampleImages.Music32.GetBitmap())
 
         soloArtists = ["Nelly Furtado", "Missy Higgins", "Moby", "Natalie Imbruglia",
                        "Dido", "Paul Simon", "Bruce Cockburn"]
@@ -76,9 +77,8 @@ class MyFrame(wx.Frame):
         self.myOlv.SetObjects(self.songs)
 
 if __name__ == '__main__':
-    app = wx.PySimpleApp(1)
-    wx.InitAllImageHandlers()
-    frame_1 = MyFrame(None, -1, "ObjectListView Simple Example 2")
-    app.SetTopWindow(frame_1)
-    frame_1.Show()
+    print("Using {} ({}) from {}".format(OLV.__name__, OLV.__version__, OLV.__path__))
+    app = wx.App()
+    frame = MyFrame(None, -1, "{} ({}) Simple Example 2".format(OLV.__name__, OLV.__version__))
+    frame.Show()
     app.MainLoop()
