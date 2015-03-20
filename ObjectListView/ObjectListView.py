@@ -1624,7 +1624,6 @@ class ObjectListView(wx.ListCtrl):
             self.sortAscending = True
 
         self.SortBy(evt.GetColumn(), self.sortAscending)
-        self._FormatAllRows()
 
     def _HandleColumnDragging(self, evt):
         """
@@ -1811,7 +1810,8 @@ class ObjectListView(wx.ListCtrl):
         self.sortColumnIndex = newColumnIndex
         self.sortAscending = ascending
 
-        # Let the world have a chance to sort the items
+        # fire a SortEvent that can be catched by a OLV-using developer
+        # who Bind() to this event
         evt = OLVEvent.SortEvent(
             self,
             self.sortColumnIndex,
@@ -1827,6 +1827,9 @@ class ObjectListView(wx.ListCtrl):
         self._UpdateColumnSortIndicators(
             self.sortColumnIndex,
             oldSortColumnIndex)
+
+        # set the row background colour
+        self._FormatAllRows()
 
     def _SortItemsNow(self):
         """
