@@ -1453,7 +1453,7 @@ class ObjectListView(wx.ListCtrl):
         if evt.GetUnicodeKey() == 0:
             uniChar = chr(evt.GetKeyCode())
         else:
-            uniChar = evt.GetUnicodeKey()
+            uniChar = chr(evt.GetUnicodeKey())
         if uniChar not in string.printable:
             return False
 
