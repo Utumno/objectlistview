@@ -1,0 +1,6 @@
+syntax: glob
+build/*
+*.pyc
+docs-build/
+dist/
+ObjectListView.egg-info/
