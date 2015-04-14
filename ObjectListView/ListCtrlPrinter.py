@@ -587,11 +587,15 @@ class ListCtrlPrintout(wx.Printout):
                 self.printData = wx.PrintData(
                     printer.GetPrintDialogData().GetPrintData())
             else:
-                wx.MessageBox(
-                    "There was a problem printing.\nPerhaps your current printer is not set correctly?",
-                    "Printing",
-                    wx.OK)
-        finally:
+                error = printer.GetLastError()
+                if error == wx.PRINTER_ERROR:
+                    wx.MessageBox(
+                        "There was a problem printing.\nPerhaps your current printer is not set correctly?",
+                        "Printing",
+                        wx.OK)
+                elif error == wx.PRINTER_CANCELLED:
+                    pass
+       finally:
             pdd.Destroy()
 
     #-------------------------------------------------------------------------
