@@ -595,7 +595,7 @@ class ListCtrlPrintout(wx.Printout):
                         wx.OK)
                 elif error == wx.PRINTER_CANCELLED:
                     pass
-       finally:
+        finally:
             pdd.Destroy()
 
     #-------------------------------------------------------------------------
