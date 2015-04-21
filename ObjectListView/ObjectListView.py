@@ -103,6 +103,7 @@ import operator
 import string
 import time
 import six
+import unicodedata
 
 from . import CellEditor
 from . import OLVEvent
