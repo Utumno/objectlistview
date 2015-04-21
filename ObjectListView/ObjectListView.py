@@ -103,6 +103,7 @@ import operator
 import string
 import time
 import six
+import unicodedata
 
 from . import CellEditor
 from . import OLVEvent
@@ -1367,6 +1368,22 @@ class ObjectListView(wx.ListCtrl):
 
         return (rowIndex, 0, -1)
 
+
+    # ----------------------------------------------------------------------
+    # Utilities
+
+    def _IsPrintable(self, char):
+        """
+        Check if char is printable using unicodedata as string.isPrintable
+        is only available in Py3.
+        """
+        cat = unicodedata.category(char)
+        if cat[0] == "L":
+            return True
+        else:
+            return False
+
+
     #-------------------------------------------------------------------------
     # Event handling
 
@@ -1450,11 +1467,17 @@ class ObjectListView(wx.ListCtrl):
 
         # On Linux, GetUnicodeKey() always returns 0 -- on my 2.8.7.1
         # (gtk2-unicode)
-        if evt.GetUnicodeKey() == 0:
-            uniChar = chr(evt.GetKeyCode())
+        uniKey = evt.UnicodeKey
+        if uniKey == 0:
+            uniChar = six.unichr(evt.KeyCode)
         else:
-            uniChar = chr(evt.GetUnicodeKey())
-        if uniChar not in string.printable:
+            # on some versions of wxPython UnicodeKey returns the character
+            # on others it is an integer
+            if isinstance(uniKey, int):
+                uniChar = six.unichr(uniKey)
+            else:
+                uniChar = uniKey
+        if not self._IsPrintable(uniChar):
             return False
 
         # On Linux, evt.GetTimestamp() isn't reliable so use time.time()
