@@ -111,7 +111,13 @@ from . import OLVEvent
 if six.PY3:
     # python 3 lacks cmp:
     def cmp(a, b):
-        return (a > b) - (a < b)
+        # protect for unorderable types in Py3
+        if type(a) == type(b) and b is not None:
+            return (a > b) - (a < b)
+        else:
+            aS = str(a)
+            bS = str(b)
+            return (aS > bS) - (aS < bS)
 
 
 class ObjectListView(wx.ListCtrl):
